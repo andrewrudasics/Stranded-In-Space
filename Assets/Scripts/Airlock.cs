@@ -21,6 +21,8 @@ public class Airlock : MonoBehaviour
     {
     	if (collision.gameObject.tag == "Player") {
     		SceneManager.LoadScene("Scenes/Levels/LevelTwo");
+    		// Use: SceneManager.GetActiveScene().buildIndex + 1 
+    		// For generic next level
     	}
     	
     }
