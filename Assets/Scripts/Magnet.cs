@@ -36,8 +36,8 @@ public class Magnet : MonoBehaviour
 		if (magnetComp != null)
 		{
 			Vector3 magnetForce = CalculateGilbertForce(this, magnetComp);
-			this.transform.root.GetComponent<Rigidbody2D>().AddForce(magnetForce);
-			// this.transform.parent.GetComponent<Rigidbody2D>().AddForce(magnetForce);
+			// this.transform.root.GetComponent<Rigidbody2D>().AddForce(magnetForce);
+			this.transform.parent.GetComponent<Rigidbody2D>().AddForce(magnetForce);
 		}
 	}
 
