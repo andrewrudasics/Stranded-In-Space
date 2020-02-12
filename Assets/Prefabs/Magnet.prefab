@@ -62,7 +62,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 3, y: 3}
   m_Direction: 1
 --- !u!120 &2339394116492563515
 LineRenderer:
