@@ -72,7 +72,8 @@ public class Player : MonoBehaviour
         Vector3 normal = transform.TransformVector(norm);
         Vector3 hitPoint = transform.TransformPoint(hitP);
         //gameObject.GetComponent<Rigidbody2D>().
-        gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, transform.InverseTransformDirection(normal)), smoothingFactor /** Time.deltaTime*/));
+        //gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, transform.InverseTransformDirection(normal)), smoothingFactor /** Time.deltaTime*/));
+        gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.FromToRotation(transform.up, normal));
 
         float movedir = Input.GetAxis("Horizontal");
         Vector3 movement = Vector3.Cross(norm, new Vector3(0,0,1.0f)).normalized * movedir * movementSpeed;
