@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class AsteroidBarrier : MonoBehaviour
 {
+	GameManager gm;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gm = GameManager.Instance;
+        Debug.Log("Current game state when Starts: " + gm.gameState);
+        gm.SetGameState(GameState.Game);
     }
 
     // Update is called once per frame
@@ -21,8 +24,8 @@ public class AsteroidBarrier : MonoBehaviour
     {
     	if (collision.gameObject.tag == "Player") {
     		SceneManager.LoadScene("Scenes/DeathScene");
-    		// Use: SceneManager.GetActiveScene().buildIndex + 1 
-    		// For generic next level
+    		gm.SetGameScene(SceneManager.GetActiveScene().name);
+    		Debug.Log("Current game state when death: " + gm.gameState);
     	}
     	
     }
