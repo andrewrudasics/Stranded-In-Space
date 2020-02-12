@@ -12,9 +12,13 @@ public class Magnet : MonoBehaviour
 	public MagneticPole pole = MagneticPole.N;
 	public float permeability = 0.05f;
 
+	private MagneticPole myPole;
 	private CapsuleCollider2D capsule;
 	private Transform trans;
 	private LineRenderer lr;
+	private SpriteRenderer sr;
+	private Color blue = new Color(0.388f, 0.595f, 0.915f, 1f);
+	private Color red = new Color(0.981f, 0.389f, 0.389f, 1f);
 
 	// Start is called before the first frame update
 	void Start()
@@ -22,11 +26,35 @@ public class Magnet : MonoBehaviour
 		capsule = this.GetComponent<CapsuleCollider2D>();
 		trans = this.transform;
 		lr = this.GetComponent<LineRenderer>();
+		sr = this.transform.parent.GetComponent<SpriteRenderer>();
+		if (pole == MagneticPole.N)
+		{
+			sr.color = red;
+			myPole = MagneticPole.N;
+		}
+		else
+		{
+			sr.color = blue;
+			myPole = MagneticPole.S;
+		}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
+		if (pole != myPole)
+		{
+			if (pole == MagneticPole.N)
+			{
+				sr.color = red;
+				myPole = MagneticPole.N;
+			}
+			else
+			{
+				sr.color = blue;
+				myPole = MagneticPole.S;
+			}
+		}
 		DrawCapsule();
 	}
 
@@ -72,7 +100,6 @@ public class Magnet : MonoBehaviour
 	void DrawCapsule()
 	{
 		float rotation = trans.rotation.eulerAngles.z;
-		print("rotation: " + rotation);
 		Vector2 colliderSize = trans.lossyScale * capsule.size;
 
 		// if one is smaller, emulate it to a circle collider
