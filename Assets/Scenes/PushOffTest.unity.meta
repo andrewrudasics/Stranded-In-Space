@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/LoseCollider.unity.meta
+guid: 3f3e3577c8e3e0446878c39abce825d8
+=======
 guid: b22dcda685287974283e5ea9fd40aada
+>>>>>>> 6a7fa52f6f6c7b0b231c0b184e7dfd7ebce6e105:Assets/Scenes/PushOffTest.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
