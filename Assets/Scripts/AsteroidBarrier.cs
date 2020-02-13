@@ -23,7 +23,7 @@ public class AsteroidBarrier : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) 
     {
     	if (collision.gameObject.tag == "Player") {
-    		SceneManager.LoadScene("Scenes/DeathScene");
+    		SceneManager.LoadScene("Scenes/NonLevelScenes/DeathScene");
     		gm.SetGameScene(SceneManager.GetActiveScene().name);
     		Debug.Log("Current game state when death: " + gm.gameState);
     	}
