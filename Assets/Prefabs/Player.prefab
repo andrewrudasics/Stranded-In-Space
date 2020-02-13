@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7694330007445276809}
   - component: {fileID: 7694330007445276821}
   - component: {fileID: 7694330007445276818}
+  - component: {fileID: 196594855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -28,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7694330007445276808}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.22, y: 2.41755, z: 0}
-  m_LocalScale: {x: 0.8365024, y: 0.8365024, z: 0.8365024}
+  m_LocalScale: {x: 0.8577496, y: 0.8577496, z: 0.8577496}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -126,7 +127,9 @@ MonoBehaviour:
   stickMultiplier: 2
   castDist: 0.28
   smoothingFactor: 0.5
-  movementSpeed: 2
+  movementSpeed: 0.1
+  aimLimit: 45
+  pushOffWindow: 0.1
 --- !u!50 &7694330007445276821
 Rigidbody2D:
   serializedVersion: 4
@@ -143,7 +146,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.1
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b7a2db7f215c9c543bc2a08be5c9cb08, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -164,3 +167,22 @@ CircleCollider2D:
   m_Offset: {x: 0.07, y: 0.08}
   serializedVersion: 2
   m_Radius: 1.3
+--- !u!95 &196594855
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7694330007445276808}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 24205bc8c5779384e90de5a64ba3b53a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
