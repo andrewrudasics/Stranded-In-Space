@@ -19,7 +19,7 @@ public class Player2D : MonoBehaviour
         dragging = false;
 
         targetPos = transform.position;
-        rb = gameObject.Find("Player").GetComponent<Rigidbody>();
+        //rb = gameObject.Find("Player").GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame

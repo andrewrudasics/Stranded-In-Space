@@ -56,10 +56,13 @@ public class Player : MonoBehaviour
             if (collision.gameObject.layer == 10)
             {
                 Rigidbody2D cR = collision.gameObject.GetComponent<Rigidbody2D>();
-                Vector2 v2 = ((rigidbody.velocity * rigidbody.mass) + (cR.velocity * cR.mass)) / (rigidbody.mass + cR.mass);
-                cR.velocity = v2;
-                stuckVelocity = v2;
-                stuckTo = collision.gameObject;
+                if (cR.bodyType == RigidbodyType2D.Dynamic)
+                {
+                    Vector2 v2 = ((rigidbody.velocity * rigidbody.mass) + (cR.velocity * cR.mass)) / (rigidbody.mass + cR.mass);
+                    cR.velocity = v2;
+                    stuckVelocity = v2;
+                    stuckTo = collision.gameObject;
+                }
             }
         }
     }
