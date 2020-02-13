@@ -10,14 +10,16 @@ public class Player2D : MonoBehaviour
     private bool dragging;
     private float moveSpeed = (float)2.0; 
     private Vector2 targetPos;
-    //public Rigidbody rb;
+    public GameObject activePrefab;
+
+    public Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
         dragging = false;
 
         targetPos = transform.position;
-        //rb = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.Find("Player").GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
