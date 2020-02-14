@@ -11,6 +11,10 @@ public class Magnet : MonoBehaviour
 	public float magnetForce = 4f;
 	public MagneticPole pole = MagneticPole.N;
 	public float permeability = 0.05f;
+	public Rigidbody2D playerRb;
+	[Header("Player specific, others set to false")]
+	public bool isStickTo;
+	// public Transform positionMagnet;
 
 	private MagneticPole myPole;
 	private CapsuleCollider2D capsule;
@@ -61,11 +65,15 @@ public class Magnet : MonoBehaviour
 	private void OnTriggerStay2D(Collider2D collision)
 	{
 		Magnet magnetComp = collision.GetComponent<Magnet>();
-		if (magnetComp != null)
+		if (magnetComp != null && !isStickTo)
 		{
 			Vector3 magnetForce = CalculateGilbertForce(this, magnetComp);
 			// this.transform.root.GetComponent<Rigidbody2D>().AddForce(magnetForce);
-			this.transform.parent.GetComponent<Rigidbody2D>().AddForce(magnetForce);
+			//this.transform.parent.GetComponent<Rigidbody2D>().AddForce(magnetForce);
+			//print("playerRb position: " + playerRb.transform.position);
+			Vector3 forcePosition = transform.position;
+			//print("force position: " + forcePosition);
+			playerRb.AddForceAtPosition(magnetForce, playerRb.transform.position);
 		}
 	}
 
@@ -92,6 +100,11 @@ public class Magnet : MonoBehaviour
 		}
 
 		return f * r.normalized;
+	}
+
+	public void SetStickTo(bool stickTo)
+	{
+		isStickTo = stickTo;
 	}
 
 	/*
