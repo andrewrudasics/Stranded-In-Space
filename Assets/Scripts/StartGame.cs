@@ -22,4 +22,9 @@ public class StartGame : MonoBehaviour
     {
     	SceneManager.LoadScene(gm.GetLevelBuildIndex());
     }
+
+    public void ViewControls()
+    {
+        SceneManager.LoadScene("Scenes/NonLevelScenes/Controls");
+    }
 }
