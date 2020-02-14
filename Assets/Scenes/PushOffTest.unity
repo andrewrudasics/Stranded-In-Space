@@ -341,6 +341,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7694330007445276809, guid: 61727fe732f80674283b168b719488aa,
+        type: 3}
+      propertyPath: aimTolerance
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694330007445276809, guid: 61727fe732f80674283b168b719488aa,
+        type: 3}
+      propertyPath: pushOffWindow
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7694330007445276820, guid: 61727fe732f80674283b168b719488aa,
         type: 3}
       propertyPath: m_LocalPosition.x

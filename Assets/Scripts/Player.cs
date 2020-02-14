@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private GameObject stuckTo;
+    private GameObject stuckTo, prevStuck;
     public float stickMultiplier = 100;
     private int layerMask = 1 << 10;
     public float castDist;
     private Rigidbody2D rigidbody;
     public float smoothingFactor;
-    public float movementSpeed;
+    public float movementSpeed, pushOffSpeed;
     private Vector2 stuckVelocity;
-    public float aimLimit;
-    private bool mouseState;
+    public float aimTolerance;
+    private bool mouseState, grounded;
     private Vector2 prevMouseDir;
     private float pushedOff;
     public float pushOffWindow;
+    private Vector3 cNorm;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,54 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Aiming Rotation
+        if (Input.GetMouseButton(0) && grounded)
+        {
+            mouseState = true;
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - pos;
+
+            float nrm = Mathf.Atan2(cNorm.y, cNorm.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            angle = Mathf.Clamp(angle, nrm - aimTolerance, nrm + aimTolerance);
+            rigidbody.SetRotation(Quaternion.AngleAxis(angle - 90, Vector3.forward));
+            Debug.Log(rigidbody.rotation);
+            Debug.DrawRay(transform.position, dir, Color.green);
+            Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
+
+/*
+            Quaternion up = Quaternion.Euler(Vector3.up);
+            Quaternion aim = Quaternion.Euler(direction.normalized);
+            Quaternion sNorm = Quaternion.Euler(cNorm);
+            float angle = Quaternion.Angle(up, aim);
+            Debug.Log("Aim Angle:" + angle);
+            
+            float normAngle = Quaternion.Angle(up, sNorm);
+            Debug.Log("Norm Angle:" + normAngle);
+            angle = Mathf.Clamp(angle, normAngle - aimLimit, normAngle + aimLimit);
+            aim = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
+
+            Quaternion newRot = Quaternion.FromToRotation(Vector3.up, direction);
+            Vector3 el = newRot.eulerAngles;
+            Debug.Log(el);
+            el.y = 0;
+            gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.Euler(el));
+            */
+        } 
+        else if(!Input.GetMouseButton(0))
+        {
+            if (mouseState)
+            {
+                rigidbody.velocity = pushOffSpeed * prevMouseDir;
+                prevStuck = stuckTo;
+                stuckTo = null;
+                mouseState = false;
+                pushedOff = Time.time;
+                grounded = false;
+            }
+        }
+
+        //Debug.Log("Grounded: " + grounded);
     }
 
     private void FixedUpdate()
@@ -51,10 +99,11 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        if (Time.time - pushedOff > pushOffWindow && stuckTo == null)
+        if ((Time.time - pushedOff > pushOffWindow) && stuckTo == null)
         {
             if (collision.gameObject.layer == 10)
             {
+                grounded = true;
                 Rigidbody2D cR = collision.gameObject.GetComponent<Rigidbody2D>();
                 if (cR.bodyType == RigidbodyType2D.Dynamic)
                 {
@@ -85,6 +134,8 @@ public class Player : MonoBehaviour
             norm /= collision.contactCount;
             hitP /= collision.contactCount;
 
+            cNorm = norm;
+
             Vector3 normal = transform.TransformVector(norm);
             Vector3 hitPoint = transform.TransformPoint(hitP);
 
@@ -93,67 +144,43 @@ public class Player : MonoBehaviour
             rot.y = 0;
             nr = Quaternion.Euler(rot);
 
-            // Aiming Rotation
-            if (Input.GetMouseButton(0))
+            Vector3 movement;
+            
+            if (!Input.GetMouseButton(0))
             {
-                mouseState = true;
-                Vector3 mousePosition = Input.mousePosition;
-                mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-                Vector3 direction = new Vector3(
-                    mousePosition.x - transform.position.x,
-                    mousePosition.y - transform.position.y,
-                    0
-                );
-                prevMouseDir = direction;
-                Debug.DrawRay(transform.position, mousePosition, Color.magenta);
-
-                Quaternion newRot = Quaternion.FromToRotation(Vector3.up, direction);
-                Vector3 el = newRot.eulerAngles;
-                
-                //el.z = Mathf.Clamp(el.z + 360, rot.z - aimLimit, rot.z + aimLimit);
-                el.y = 0;
-                Debug.Log(el);
-                gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.Euler(el));
+                // Movement
+                float movedir = Input.GetAxis("Horizontal");
+                movement = Vector3.Cross(norm, new Vector3(0, 0, 1.0f)).normalized * movedir * movementSpeed;
+                Debug.DrawRay(transform.position, movement, Color.cyan);
             }
             else
             {
-                if (mouseState)
+                movement = new Vector3();
+            }
+                // Sticking
+                Vector3 stickDir = (transform.position - collision.gameObject.transform.position).normalized;
+                Debug.DrawRay(transform.position, stickDir, Color.yellow);
+                Vector3 stickForce = stickMultiplier * -norm.normalized;
+
+                Debug.DrawRay(hitP, norm, Color.green);
+                //Debug.Log("Hit Normal: " + normal);
+
+                // Opposite Object
+                Rigidbody2D cRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+                if (cRigidbody.bodyType == RigidbodyType2D.Dynamic)
                 {
-                    rigidbody.velocity = movementSpeed * prevMouseDir;
-                    stuckTo = null;
-                    mouseState = false;
-                    pushedOff = Time.time;
-                }
-                else
-                {
-                    // Movement
-                    float movedir = Input.GetAxis("Horizontal");
-                    Vector3 movement = Vector3.Cross(norm, new Vector3(0, 0, 1.0f)).normalized * movedir * movementSpeed;
-                    Debug.DrawRay(transform.position, movement, Color.cyan);
-
-                    // Sticking
-                    Vector3 stickDir = (transform.position - collision.gameObject.transform.position).normalized;
-                    Debug.DrawRay(transform.position, stickDir, Color.yellow);
-                    Vector3 stickForce = stickMultiplier * -norm.normalized;
-
-                    Debug.DrawRay(hitP, norm, Color.green);
-                    //Debug.Log("Hit Normal: " + normal);
-
-
-                    // Opposite Object
-                    Rigidbody2D cRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-                    if (cRigidbody.bodyType == RigidbodyType2D.Dynamic)
-                    {
-                        cRigidbody.velocity = (Vector2)(-1.0f * ((stickForce)) * (rigidbody.mass / cRigidbody.mass)) + stuckVelocity;
-                    }
-
-                    // Set Velocity of Player
-                    rigidbody.velocity = (stuckVelocity + new Vector2(stickForce.x, stickForce.y) + new Vector2(movement.x, movement.y));
-                    Debug.DrawRay(rigidbody.position, rigidbody.velocity, Color.red);
+                    cRigidbody.velocity = (Vector2)(-1.0f * ((stickForce)) * (rigidbody.mass / cRigidbody.mass)) + stuckVelocity;
                 }
 
+                // Set Velocity of Player
+                rigidbody.velocity = (stuckVelocity + new Vector2(stickForce.x, stickForce.y) + new Vector2(movement.x, movement.y));
+                Debug.DrawRay(rigidbody.position, rigidbody.velocity, Color.red);
+
+            if (!Input.GetMouseButton(0))
+            {
                 gameObject.GetComponent<Rigidbody2D>().SetRotation(nr);
             }
+            
            
             
            
