@@ -25,7 +25,7 @@ public class LoseCollider : MonoBehaviour
 		if (collision.gameObject.tag == "Player")
 		{
 			print("player");
-			SceneManager.LoadScene("Scenes/DeathScene");
+			SceneManager.LoadScene("Scenes/NonLevelScenes/DeathScene");
 			gm.SetGameScene(SceneManager.GetActiveScene().name);
 		}
 		Destroy(collision.gameObject);

@@ -9,15 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/OpeningScenes/TitleScene.unity
+    path: Assets/Scenes/NonLevelScenes/TitleScene.unity
     guid: f2b8c01e280f9424786216cf409c121c
   - enabled: 1
-    path: Assets/Scenes/DeathScene.unity
+    path: Assets/Scenes/NonLevelScenes/DeathScene.unity
     guid: 9dd4f8f7d30ad4f27a1e0753cd3c0f43
   - enabled: 1
-    path: Assets/Scenes/Levels/LevelOne.unity
+    path: Assets/Scenes/Levels/Level1.unity
     guid: 89a2e329049764458a268fdd8082d3df
   - enabled: 1
-    path: Assets/Scenes/Levels/LevelTwo.unity
+    path: Assets/Scenes/Levels/Level2.unity
     guid: 4fade787bb3804246ad5f62aa594748a
+  - enabled: 1
+    path: Assets/Scenes/NonLevelScenes/WinScene.unity
+    guid: 41e7d3518714f4d74935e8f174bd4ab5
   m_configObjects: {}
