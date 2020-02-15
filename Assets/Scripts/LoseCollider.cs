@@ -24,7 +24,10 @@ public class LoseCollider : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Player")
 		{
-			print("player");
+			IEnumerator death = GameManager.Logger.LogLevelAction(4, "Player died off screen");
+            StartCoroutine(death);
+            IEnumerator levelComplete = GameManager.Logger.LogLevelEnd("Died on level " + (gm.GetLevelBuildIndex() - 1));
+            StartCoroutine(levelComplete);
 			SceneManager.LoadScene("Scenes/NonLevelScenes/DeathScene");
 			gm.SetGameScene(SceneManager.GetActiveScene().name);
 		}

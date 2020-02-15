@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NonLevelScenes/WinScene.unity
     guid: 41e7d3518714f4d74935e8f174bd4ab5
+  - enabled: 1
+    path: Assets/Scenes/NonLevelScenes/Controls.unity
+    guid: 8092ec704b09e452e85225e440862f93
+  - enabled: 1
+    path: Assets/Scenes/NonLevelScenes/LevelCompleted.unity
+    guid: 5a562825f5cc64950ae846d09e6c0adf
   m_configObjects: {}
