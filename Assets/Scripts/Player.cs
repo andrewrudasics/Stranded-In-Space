@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         {
             if (mouseState)
             {
-                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * prevMouseDir.magnitude;
+                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.01f);
                 stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
                 prevStuck = stuckTo;
                 stuckTo = null;
@@ -142,12 +142,12 @@ public class Player : MonoBehaviour
             {
                 grounded = true;
                 Rigidbody2D cR = collision.gameObject.GetComponent<Rigidbody2D>();
+                stuckTo = collision.gameObject;
                 if (cR.bodyType == RigidbodyType2D.Dynamic)
                 {
                     Vector2 v2 = ((rigidbody.velocity * rigidbody.mass) + (cR.velocity * cR.mass)) / (rigidbody.mass + cR.mass);
                     cR.velocity = v2;
                     stuckVelocity = v2;
-                    stuckTo = collision.gameObject;
                 }
             }
         }
