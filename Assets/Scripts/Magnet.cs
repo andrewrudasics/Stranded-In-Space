@@ -54,7 +54,7 @@ public class Magnet : MonoBehaviour
 	void Update()
 	{
 		if (isPlayer) {
-			if (Input.GetKey(KeyCode.S)) {
+			if (Input.GetKey(KeyCode.Space)) {
 				if (poleIsNorth) {
 					pole = MagneticPole.S;
 				} else {
