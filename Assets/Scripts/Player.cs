@@ -35,12 +35,47 @@ public class Player : MonoBehaviour
             mouseState = true;
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
+            prevMouseDir = dir;
 
-            float nrm = Mathf.Atan2(cNorm.y, cNorm.x) * Mathf.Rad2Deg;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            angle = Mathf.Clamp(angle, nrm - aimTolerance, nrm + aimTolerance);
-            rigidbody.SetRotation(Quaternion.AngleAxis(angle - 90, Vector3.forward));
-            Debug.Log(rigidbody.rotation);
+
+
+            /* Angle approach 
+            float angle = Vector3.SignedAngle(cNorm, dir, Vector3.forward);
+            //Debug.Log("Angle: " + angle);
+            angle = Mathf.Clamp(angle, -aimTolerance, aimTolerance);
+            Debug.Log("Angle: " + angle);
+            float nrmAngle = Vector3.Angle(Vector3.up, cNorm);
+
+            
+            Debug.Log("nrmAngle: " + nrmAngle);
+            */
+
+            // Quaternion Approach
+
+            // Local Angle Approach
+            Vector3 dirLocal = transform.InverseTransformDirection(dir);
+            Vector3 normLocal = transform.InverseTransformDirection(cNorm);
+            float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
+            
+            rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
+
+
+            //float nrmLocal = Mathf.Atan2(normLocal.y, normLocal.x) * Mathf.Rad2Deg;
+            //float angleLocal = Mathf.Atan2(dirLocal.y, dirLocal.x) * Mathf.Rad2Deg;
+
+            //Debug.Log(angleLocal);
+
+            //float nrm = Mathf.Atan2(cNorm.y, cNorm.x) * Mathf.Rad2Deg;
+            //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            //float currAngle = Mathf.Atan2(transform.up.y, transform.up.x);
+
+            //angleLocal = Mathf.Clamp(angleLocal, -aimTolerance, aimTolerance);
+            //rigidbody.SetRotation(Quaternion.AngleAxis(nrmAngle + angle, Vector3.forward));
+
+
+
+            //Debug.Log(rigidbody.rotation);
             Debug.DrawRay(transform.position, dir, Color.green);
             Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
 
@@ -67,7 +102,7 @@ public class Player : MonoBehaviour
         {
             if (mouseState)
             {
-                rigidbody.velocity = pushOffSpeed * prevMouseDir;
+                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * prevMouseDir.magnitude;
                 prevStuck = stuckTo;
                 stuckTo = null;
                 mouseState = false;

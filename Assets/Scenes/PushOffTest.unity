@@ -134,6 +134,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1175338656237808921, guid: 1a9a68bfc38fe6446a0b696d338fff7a,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 1175338656237808923, guid: 1a9a68bfc38fe6446a0b696d338fff7a,
         type: 3}
       propertyPath: m_Name
@@ -350,6 +355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: pushOffWindow
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694330007445276809, guid: 61727fe732f80674283b168b719488aa,
+        type: 3}
+      propertyPath: pushOffSpeed
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7694330007445276820, guid: 61727fe732f80674283b168b719488aa,
         type: 3}
