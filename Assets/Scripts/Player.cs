@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         stuckTo = null;
+        grounded = true;
         rigidbody = GetComponent<Rigidbody2D>();
     }
 

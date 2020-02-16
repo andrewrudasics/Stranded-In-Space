@@ -10,10 +10,12 @@ public class Magnet : MonoBehaviour
 	[Range(10.0f, 700.0f)]
 	public float magnetForce = 4f;
 	public MagneticPole pole = MagneticPole.N;
+	private bool poleIsNorth;
 	public float permeability = 0.05f;
 	public Rigidbody2D playerRb;
 	[Header("Player specific, others set to false")]
 	public bool isStickTo;
+	public bool isPlayer;
 	// public Transform positionMagnet;
 
 	private MagneticPole myPole;
@@ -27,6 +29,11 @@ public class Magnet : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		if (pole == MagneticPole.N) {
+			poleIsNorth = true;
+		} else {
+			poleIsNorth = false;
+		}
 		capsule = this.GetComponent<CapsuleCollider2D>();
 		trans = this.transform;
 		lr = this.GetComponent<LineRenderer>();
@@ -46,6 +53,15 @@ public class Magnet : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (isPlayer) {
+			if (Input.GetKey(KeyCode.S)) {
+				if (poleIsNorth) {
+					pole = MagneticPole.S;
+				} else {
+					pole = MagneticPole.N;
+				}
+			}
+		}
 		if (pole != myPole)
 		{
 			if (pole == MagneticPole.N)
