@@ -22,15 +22,17 @@ public class Airlock : MonoBehaviour
     {
     	if (collision.gameObject.tag == "Player") {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-
-
     		if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
             {
+                IEnumerator levelComplete = GameManager.Logger.LogLevelEnd("Completed level " + (nextSceneIndex - 2));
+                StartCoroutine(levelComplete);
                 gm.SetLevelIndex(nextSceneIndex);
-                SceneManager.LoadScene(nextSceneIndex);
+                if (SceneUtility.GetBuildIndexByScenePath("Scenes/NonLevelScenes/WinScene") == nextSceneIndex) {
+                    SceneManager.LoadScene(nextSceneIndex);
+                } else {
+                    SceneManager.LoadScene("Scenes/NonLevelScenes/LevelCompleted");
+                }
             }
-    		// Use: SceneManager.GetActiveScene().buildIndex + 1 
-    		// For generic next level
     	}
     	
     }
