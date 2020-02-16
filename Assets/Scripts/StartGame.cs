@@ -11,7 +11,10 @@ public class StartGame : MonoBehaviour
     {
         gm = GameManager.Instance; 
         if (gm.GetUserId().Equals("")) {
-            string userId = GameManager.Logger.GenerateUuid();
+            string userId = GameManager.Logger.GetSavedUserId();
+            if (userId == null) {
+                userId = GameManager.Logger.GenerateUuid();
+            }
             IEnumerator rout = GameManager.Logger.StartNewSession(userId);
             StartCoroutine(rout);
         }
