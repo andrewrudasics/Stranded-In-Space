@@ -361,6 +361,11 @@ PrefabInstance:
       propertyPath: pushOffSpeed
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 7694330007445276809, guid: 61727fe732f80674283b168b719488aa,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7694330007445276820, guid: 61727fe732f80674283b168b719488aa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -484,6 +489,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Net Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 9215870184438752207, guid: 032b1d4813b0be340b88116134d0f920,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9215870184438752207, guid: 032b1d4813b0be340b88116134d0f920,
+        type: 3}
+      propertyPath: m_Mass
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 032b1d4813b0be340b88116134d0f920, type: 3}
