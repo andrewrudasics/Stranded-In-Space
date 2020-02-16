@@ -127,8 +127,8 @@ MonoBehaviour:
   stickMultiplier: 2
   castDist: 0.28
   smoothingFactor: 0.5
-  movementSpeed: 0.5
-  pushOffSpeed: 0.05
+  movementSpeed: 0.05
+  pushOffSpeed: 4
   aimTolerance: 0
   pushOffWindow: 0.05
 --- !u!50 &7694330007445276821
