@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    GameManager gm;
     private GameObject stuckTo, prevStuck;
     public float stickMultiplier = 100;
     private int layerMask = 1 << 10;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     {
         stuckTo = null;
         grounded = true;
+        gm = GameManager.Instance;
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
         // Aiming Rotation
         if (Input.GetMouseButton(0) && grounded)
         {
+            IEnumerator jump = GameManager.Logger.LogLevelAction(6, "Player jumped");
+            StartCoroutine(jump);
             mouseState = true;
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
