@@ -28,6 +28,7 @@ public class Magnet : MonoBehaviour
 	private SpriteRenderer sr;
 	private Color blue = new Color(0.388f, 0.595f, 0.915f, 1f);
 	private Color red = new Color(0.981f, 0.389f, 0.389f, 1f);
+	private Color noColor = new Color(1f, 1f, 1f, 1f);
 
 	// Start is called before the first frame update
 	void Start()
@@ -58,7 +59,7 @@ public class Magnet : MonoBehaviour
 	void Update()
 	{
 		if (isPlayer) {
-			if (Input.GetKeyDown(KeyCode.Space)) {
+			if (Input.GetKeyDown(KeyCode.Space) && !isOff) {
 				if (poleIsNorth) {
 					pole = MagneticPole.S;
 					poleIsNorth = false;
@@ -72,14 +73,29 @@ public class Magnet : MonoBehaviour
 					magnetForce = onForce;
 					Debug.Log(magnetForce);
 					isOff = false;
+
+					// sets color of boots
+					if (pole == MagneticPole.N)
+					{
+						sr.color = red;
+					}
+					else
+					{
+						sr.color = blue;
+					}
 				} else if (!isOff) {
 					magnetForce = offForce;
 					Debug.Log(magnetForce);
 					isOff = true;
+
+					// sets color of boots
+					sr.color = noColor;
 				}
 			}
 
 		}
+
+		// code below is so that pole is not always being set
 		if (pole != myPole)
 		{
 			if (pole == MagneticPole.N)
