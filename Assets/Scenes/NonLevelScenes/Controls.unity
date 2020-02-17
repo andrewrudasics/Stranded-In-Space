@@ -536,7 +536,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e37b90dcf02304e7da321d177845223c, type: 3}
-    m_FontSize: 20
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -557,7 +557,9 @@ MonoBehaviour:
     Jump: Release left-click
 
     Flip
-    mag-boot polarity: Space'
+    mag-boot polarity: Space
+
+    Turn boots off to walk on platform: Q'
 --- !u!222 &1466582630
 CanvasRenderer:
   m_ObjectHideFlags: 0

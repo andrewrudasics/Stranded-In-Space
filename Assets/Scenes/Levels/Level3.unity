@@ -723,7 +723,7 @@ PrefabInstance:
     - target: {fileID: 9215870184438752206, guid: 032b1d4813b0be340b88116134d0f920,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 032b1d4813b0be340b88116134d0f920, type: 3}
@@ -740,7 +740,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992967588}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
