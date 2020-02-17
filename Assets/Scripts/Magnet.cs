@@ -8,7 +8,10 @@ public class Magnet : MonoBehaviour
 	public enum MagneticPole { N, S };
 
 	[Range(10.0f, 700.0f)]
-	public float magnetForce = 4f;
+	public float magnetForce = 250f;
+	public float offForce = 0f;
+	public float onForce = 250f;
+	private bool isOff = false;
 	public MagneticPole pole = MagneticPole.N;
 	private bool poleIsNorth;
 	public float permeability = 0.05f;
@@ -29,6 +32,7 @@ public class Magnet : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+
 		if (pole == MagneticPole.N) {
 			poleIsNorth = true;
 		} else {
@@ -54,13 +58,27 @@ public class Magnet : MonoBehaviour
 	void Update()
 	{
 		if (isPlayer) {
-			if (Input.GetKey(KeyCode.Space)) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
 				if (poleIsNorth) {
 					pole = MagneticPole.S;
+					poleIsNorth = false;
 				} else {
 					pole = MagneticPole.N;
+					poleIsNorth = true;
 				}
 			}
+			if (Input.GetKeyDown(KeyCode.Q)) {
+				if (isOff) {
+					magnetForce = onForce;
+					Debug.Log(magnetForce);
+					isOff = false;
+				} else if (!isOff) {
+					magnetForce = offForce;
+					Debug.Log(magnetForce);
+					isOff = true;
+				}
+			}
+
 		}
 		if (pole != myPole)
 		{
