@@ -123,6 +123,10 @@ public class Magnet : MonoBehaviour
 			//print("playerRb position: " + playerRb.transform.position);
 			Vector3 forcePosition = transform.position;
 			//print("force position: " + forcePosition);
+			if (playerRb.gameObject.tag.Equals("Player"))
+			{
+				print("magnetForce: " + playerRb.gameObject.tag + magnetForce);
+			}
 			playerRb.AddForceAtPosition(magnetForce, playerRb.transform.position);
 		}
 	}
@@ -136,9 +140,10 @@ public class Magnet : MonoBehaviour
 	Vector3 CalculateGilbertForce(Magnet magnet1, Magnet magnet2)
 	{
 		Vector3 m1 = magnet1.transform.position;
-		Vector3 m2 = magnet2.transform.position;
+		Vector3 m2 = Physics2D.ClosestPoint(m1, magnet2.playerRb.GetComponent<Collider2D>());
+		// Vector3 m2 = magnet2.transform.position;
 		Vector3 r = m2 - m1;
-		float dist = r.sqrMagnitude;
+		float dist = r.magnitude;
 		float part0 = permeability * magnet1.magnetForce * magnet2.magnetForce;
 		float part1 = 4 * Mathf.PI * dist;
 
