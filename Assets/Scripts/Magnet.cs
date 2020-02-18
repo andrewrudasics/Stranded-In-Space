@@ -29,6 +29,7 @@ public class Magnet : MonoBehaviour
 	private Color blue = new Color(0.388f, 0.595f, 0.915f, 1f);
 	private Color red = new Color(0.981f, 0.389f, 0.389f, 1f);
 	private Color noColor = new Color(1f, 1f, 1f, 1f);
+	private bool samePole = false;
 
 	// Start is called before the first frame update
 	void Start()
@@ -67,6 +68,7 @@ public class Magnet : MonoBehaviour
 					pole = MagneticPole.N;
 					poleIsNorth = true;
 				}
+				SetStickTo(false);
 			}
 			if (Input.GetKeyDown(KeyCode.Q)) {
 				if (isOff) {
@@ -152,6 +154,11 @@ public class Magnet : MonoBehaviour
 		if (magnet1.pole == magnet2.pole)
 		{
 			f = -f;
+			samePole = true;
+		}
+		else
+		{
+			samePole = false;
 		}
 
 		return f * r.normalized;
@@ -309,5 +316,10 @@ public class Magnet : MonoBehaviour
 			aPoint.x * c - aPoint.y * s,
 			aPoint.y * c + aPoint.x * s
 		);
+	}
+
+	public bool isSamePole()
+	{
+		return samePole;
 	}
 }

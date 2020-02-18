@@ -139,12 +139,17 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if ((Time.time - pushedOff > pushOffWindow) && stuckTo == null)
+		Magnet mag = this.GetComponentInChildren<Magnet>();
+		// if not same pole dont set stick
+		if (!mag.isSamePole())
+		{
+			this.GetComponentInChildren<Magnet>().SetStickTo(true);
+		}
+		if ((Time.time - pushedOff > pushOffWindow) && stuckTo == null)
         {
             if (collision.gameObject.layer == 10)
             {
-                grounded = true;
+				grounded = true;
                 Rigidbody2D cR = collision.gameObject.GetComponent<Rigidbody2D>();
                 stuckTo = collision.gameObject;
                 if (cR.bodyType == RigidbodyType2D.Dynamic)
