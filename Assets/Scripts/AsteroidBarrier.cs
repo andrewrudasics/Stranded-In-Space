@@ -23,7 +23,7 @@ public class AsteroidBarrier : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) 
     {
     	if (collision.gameObject.tag == "Player") {
-            IEnumerator death = GameManager.Logger.LogActionWithNoLevel(4, "Level " + gm.GetLevelBuildIndex() + ": Player died on AsteroidBarrier");
+            IEnumerator death = GameManager.Logger.LogActionWithNoLevel(4, "Level " + (gm.GetLevelBuildIndex() - 1) + ": Player died on AsteroidBarrier");
             StartCoroutine(death);
             IEnumerator levelComplete = GameManager.Logger.LogLevelEnd("Died on level " + (gm.GetLevelBuildIndex() - 1));
             StartCoroutine(levelComplete);
