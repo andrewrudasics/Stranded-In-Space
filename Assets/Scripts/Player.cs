@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
         {
             if (mouseState)
             {
-                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.5f);
+                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
                 stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
                 prevStuck = stuckTo;
                 stuckTo = null;
