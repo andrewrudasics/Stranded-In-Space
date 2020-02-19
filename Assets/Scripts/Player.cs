@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
     {
 		Magnet mag = this.GetComponentInChildren<Magnet>();
 		// if not same pole dont set stick
-		if (!mag.isSamePole())
+		if (mag != null && !mag.isSamePole())
 		{
 			this.GetComponentInChildren<Magnet>().SetStickTo(true);
 		}
