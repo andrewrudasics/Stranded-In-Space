@@ -139,12 +139,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		Magnet mag = this.GetComponentInChildren<Magnet>();
-		// if not same pole dont set stick
-		if (mag != null && !mag.isSamePole())
-		{
-			this.GetComponentInChildren<Magnet>().SetStickTo(true);
-		}
+		SetMagnetStick(true);
 		if ((Time.time - pushedOff > pushOffWindow) && stuckTo == null)
         {
             if (collision.gameObject.layer == 10)
@@ -232,4 +227,20 @@ public class Player : MonoBehaviour
            
         }
     }
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		SetMagnetStick(false);
+	}
+
+	// tries to disable magnet if magnet found
+	private void SetMagnetStick(bool isStickTo)
+	{
+		Magnet mag = this.GetComponentInChildren<Magnet>();
+		// if not same pole dont set stick
+		if (mag != null && !mag.isSamePole())
+		{
+			this.GetComponentInChildren<Magnet>().SetStickTo(isStickTo);
+		}
+	}
 }
