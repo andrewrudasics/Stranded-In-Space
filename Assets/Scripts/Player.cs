@@ -33,10 +33,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         // Aiming Rotation
+        if (Input.GetMouseButtonUp(0)) {
+            GameManager.Logger.LogLevelAction(400 + (gm.GetLevelBuildIndex() - 1), "Player jumped in Level " + (gm.GetLevelBuildIndex() - 1));
+
+        }
         if (Input.GetMouseButton(0) && grounded)
         {
-            IEnumerator jump = GameManager.Logger.LogLevelAction(6, "Player jumped");
-            StartCoroutine(jump);
             mouseState = true;
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
@@ -105,6 +107,8 @@ public class Player : MonoBehaviour
         } 
         else if(!Input.GetMouseButton(0))
         {
+
+
             if (mouseState)
             {
                 rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
@@ -116,8 +120,6 @@ public class Player : MonoBehaviour
                 grounded = false;
             }
         }
-
-        //Debug.Log("Grounded: " + grounded);
     }
 
     private void FixedUpdate()

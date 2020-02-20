@@ -23,10 +23,11 @@ namespace cse481.logging {
     /// keep a static singleton instance of this class in a <see cref="MonoBehaviour"/>
     /// that performs game-specific logging for each object.
     /// 
-    /// <para>All of the logging methods are coroutines designed to
+    /// <para>The StartNewSession and LogLevelStart logging methods are coroutines designed to
     /// work with <see cref="MonoBehaviour.StartCoroutine(IEnumerator)"/>,
     /// which coroutines will wait until the server request either
-    /// completes or encounters an error.</para>
+    /// completes or encounters an error. All others are regular function calls that do not
+	/// require waiting for response data to come back from the http endpoint</para>
     /// </remarks>
 	public class CapstoneLogger 
 	{
@@ -54,6 +55,7 @@ namespace cse481.logging {
 		private int currentActionSeqInLevel;
 
 		private DateTime timestampOfPrevLevelStart;
+		private DateTime timestampOfPrevAction = DateTime.Now;
 
 		private List<LevelAction> levelActionBuffer;
 
@@ -146,10 +148,9 @@ namespace cse481.logging {
 
 			Dictionary<string, string> requestParams = PrepareParams(sessionParams);
 			UnityWebRequest sessionRequest = PrepareRequest("loggingpageload/set/", requestParams);
-
-			yield return sessionRequest.Send();
-
+			yield return sessionRequest.SendWebRequest();
 			if (!sessionRequest.isNetworkError) {
+				// Return data formatted like data={...}
 				string text = sessionRequest.downloadHandler.text.Substring (5);
 				Debug.Log (text);
                 var parsedResults = JsonUtility.FromJson<NewSessionResponse>(text);
@@ -223,8 +224,7 @@ namespace cse481.logging {
 			Dictionary<string, string> requestParams = PrepareParams (startData);
 			UnityWebRequest levelStartRequest = PrepareRequest("quest/start/", requestParams);
 
-			Debug.Log ("Level request sent");
-			yield return levelStartRequest.Send();
+			yield return levelStartRequest.SendWebRequest();
 
 			if (!levelStartRequest.isNetworkError == true) {
 				string text = levelStartRequest.downloadHandler.text.Substring (5);
@@ -253,13 +253,13 @@ namespace cse481.logging {
         }
 
 		/// <summary>
-		/// Coroutine that logs the end of the level.
+		/// Function that logs the end of the level.
 		/// </summary>
 		/// <param name="details">Any details about the ending of the level
 		/// that you want to record.</param>
-		public IEnumerator LogLevelEnd(string details)
+		public void LogLevelEnd(string details)
 		{
-			yield return this.FlushBufferedLevelActions();
+			this.FlushBufferedLevelActions();
 
 			var endData = this.GetCommonData<LevelEndData>();
 			endData.sessionid = this.currentSessionId;
@@ -272,7 +272,7 @@ namespace cse481.logging {
 
 			Dictionary<string, string> requestParams = PrepareParams (endData);
 			UnityWebRequest levelEndRequest = PrepareRequest("quest/end/", requestParams);
-			yield return levelEndRequest.Send();
+			levelEndRequest.SendWebRequest();
 
 			this.currentDqid = null;
 		}
@@ -289,9 +289,9 @@ namespace cse481.logging {
         }
         
         /// <summary>
-        /// Coroutine that logs an action taken in the level.
+        /// Function that logs an action taken in the level.
         /// </summary>
-        /// <returns>An IEnumerator to pass into StartCoroutine</returns>
+        /// <returns>Nothing</returns>
         /// <param name="actionId">A number that you assign that maps
         /// to a particular action that you are interested in recording.
         /// Each action type should have a unique number that is kept
@@ -304,7 +304,7 @@ namespace cse481.logging {
         /// sees fit. Level actions will also be flushed when
         /// <see cref="LogLevelEnd(string)"/> or <see cref="FlushBufferedLevelActions"/>
         /// are called. </remarks>
-        public IEnumerator LogLevelAction(int actionId, string details)
+        public void LogLevelAction(int actionId, string details)
 		{
 			// Per action, figure out the time since the start of the level
 			DateTime timestampOfAction = DateTime.Now;
@@ -320,12 +320,14 @@ namespace cse481.logging {
 			};
 			this.levelActionBuffer.Add(individualAction);
 
-            if (UnityEngine.Random.value < (levelActionBuffer.Count / 64.0))
+			// Flush buffer if it exceeds a certain length or some amount of time has elapsed since
+			// the last time we flushed the buffer.
+			double timeSinceLastAction = (timestampOfAction - this.timestampOfPrevAction).TotalMilliseconds;
+            if (levelActionBuffer.Count >= 5 || timeSinceLastAction > 2000)
             {
-                yield return this.FlushBufferedLevelActions();
+                this.FlushBufferedLevelActions();
             }
-
-            yield break;
+			this.timestampOfPrevAction = DateTime.Now;
 		}
 
         [Serializable]
@@ -342,9 +344,9 @@ namespace cse481.logging {
         }
 
 		/// <summary>
-		/// Coroutine that logs an action with no associated level.
+		/// Function logs an action with no associated level.
 		/// </summary>
-        /// <returns>An IEnumerator to pass into StartCoroutine.</returns>
+        /// <returns>nothing</returns>
 		/// <param name="actionId">A number that you assign that maps
 		/// to a particular action that you are interested in recording.
 		/// Each action type should have a unique number that is kept
@@ -353,7 +355,7 @@ namespace cse481.logging {
 		/// (e.g. location, target, success, etc.)</param>
 		/// <remarks>Unlike level actions, non-level actions are unbuffered
 		/// and sent to the server immmediately without needing to be flushed.</remarks>
-		public IEnumerator LogActionWithNoLevel(int actionId, string details)
+		public void LogActionWithNoLevel(int actionId, string details)
 		{
             var actionNoLevelData = new ActionNoLevelData {
                 session_seqid = ++this.currentActionSeqInSession,
@@ -370,7 +372,7 @@ namespace cse481.logging {
             };
 			Dictionary<string, string> requestParams = PrepareParams (actionNoLevelData);
 			UnityWebRequest actionNoLevelRequest = PrepareRequest("loggingactionnoquest/set/", requestParams);
-			yield return actionNoLevelRequest.Send();
+			actionNoLevelRequest.SendWebRequest();
 		}
 
         [Serializable]
@@ -399,7 +401,7 @@ namespace cse481.logging {
 		/// actions are buffered until you either call this method or start or end
 		/// a level.
 		/// </remarks>
-		public IEnumerator FlushBufferedLevelActions()
+		public void FlushBufferedLevelActions()
 		{
 			// Don't log any actions until a dqid has been set
 			if (this.levelActionBuffer.Count > 0 && this.currentDqid != null)
@@ -413,7 +415,7 @@ namespace cse481.logging {
 				UnityWebRequest levelActionRequest = 
 					PrepareRequest("logging/set/", requestParams);
 
-				yield return levelActionRequest.Send ();
+				levelActionRequest.SendWebRequest();
 
 				// Clear out old array
 				this.levelActionBuffer = new List<LevelAction>();

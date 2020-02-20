@@ -11,6 +11,7 @@ public class DeathScene : MonoBehaviour
     void Start()
     {
     	gm = GameManager.Instance;   
+        
     }
 
     // Update is called once per frame
@@ -19,19 +20,24 @@ public class DeathScene : MonoBehaviour
         
     }
 
+    IEnumerator ExecuteAfterTime(float time) 
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    }
+
     public void TryAgain() 
     {
+        GameManager.Logger.LogLevelEnd("Player died on Level " + (gm.GetLevelBuildIndex() - 1));
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
-            5, "Starting level " + (gm.GetLevelBuildIndex() - 1));
+            100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-    	SceneManager.LoadScene(gm.GetLevelBuildIndex());
+        StartCoroutine(ExecuteAfterTime(1));
     }
 
     public void GoToMainMenu()
     {
-        IEnumerator levelQuit = GameManager.Logger.LogLevelEnd(
-            "Level " + (gm.GetLevelBuildIndex() - 1) + " quit after death");
-        StartCoroutine(levelQuit);
+        GameManager.Logger.LogLevelEnd("Player died on Level " + (gm.GetLevelBuildIndex() - 1));
         SceneManager.LoadScene(gm.GetMainMenuBuildIndex());
     }
 }

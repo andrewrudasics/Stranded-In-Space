@@ -24,8 +24,7 @@ public class Airlock : MonoBehaviour
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
     		if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
             {
-                IEnumerator levelComplete = GameManager.Logger.LogLevelEnd("Completed level " + (nextSceneIndex - 2));
-                StartCoroutine(levelComplete);
+                GameManager.Logger.LogLevelEnd("Completed level " + (nextSceneIndex - 2));
                 gm.SetLevelIndex(nextSceneIndex);
                 if (SceneUtility.GetBuildIndexByScenePath("Scenes/NonLevelScenes/WinScene") == nextSceneIndex) {
                     SceneManager.LoadScene(nextSceneIndex);

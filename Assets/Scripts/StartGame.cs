@@ -11,11 +11,9 @@ public class StartGame : MonoBehaviour
     {
         gm = GameManager.Instance; 
         if (gm.GetUserId().Equals("")) {
-            //string userId = GameManager.Logger.GetSavedUserId();
-            //if (userId == null) {
-                string userId = GameManager.Logger.GenerateUuid();
-                GameManager.Logger.SetSavedUserId(userId);
-            //}
+
+            string userId = GameManager.Logger.GenerateUuid();
+            GameManager.Logger.SetSavedUserId(userId);
             gm.SetUserId(userId);
             IEnumerator rout = GameManager.Logger.StartNewSession(userId);
             StartCoroutine(rout);
@@ -28,18 +26,25 @@ public class StartGame : MonoBehaviour
         
     } 
 
+
+    IEnumerator ExecuteAfterTime(float time) 
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    }
     public void PlayGame()
     {
+
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
-            5, "Starting level " + (gm.GetLevelBuildIndex() - 1));
+            100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-    	SceneManager.LoadScene(gm.GetLevelBuildIndex());
+        StartCoroutine(ExecuteAfterTime(1));
+    	
     }
 
     public void ViewControls()
     {
-        IEnumerator logControlView = GameManager.Logger.LogActionWithNoLevel(1, "Viewed Controls");
-        StartCoroutine(logControlView);
+        GameManager.Logger.LogActionWithNoLevel(1, "Viewed Controls");
         SceneManager.LoadScene("Scenes/NonLevelScenes/Controls");
     }
 }
