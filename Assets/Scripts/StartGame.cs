@@ -26,20 +26,25 @@ public class StartGame : MonoBehaviour
     void Update()
     {
         
-    } 
+    }
+
+    IEnumerator ExecuteAfterDelay(double time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    }
 
     public void PlayGame()
     {
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             5, "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-    	SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    	StartCoroutine(ExecuteAfterDelay(2));
     }
 
     public void ViewControls()
     {
-        IEnumerator logControlView = GameManager.Logger.LogActionWithNoLevel(1, "Viewed Controls");
-        StartCoroutine(logControlView);
+        GameManager.Logger.LogActionWithNoLevel(1, "Viewed Controls");
         SceneManager.LoadScene("Scenes/NonLevelScenes/Controls");
     }
 }

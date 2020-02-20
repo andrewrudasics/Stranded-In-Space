@@ -19,19 +19,24 @@ public class DeathScene : MonoBehaviour
         
     }
 
+    IEnumerator ExecuteAfterTime(int time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    }
+
     public void TryAgain() 
     {
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             5, "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-    	SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    	StartCoroutine(ExecuteAfterTime(2));
     }
 
     public void GoToMainMenu()
     {
-        IEnumerator levelQuit = GameManager.Logger.LogLevelEnd(
+        GameManager.Logger.LogLevelEnd(
             "Level " + (gm.GetLevelBuildIndex() - 1) + " quit after death");
-        StartCoroutine(levelQuit);
         SceneManager.LoadScene(gm.GetMainMenuBuildIndex());
     }
 }

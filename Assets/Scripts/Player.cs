@@ -35,8 +35,7 @@ public class Player : MonoBehaviour
         // Aiming Rotation
         if (Input.GetMouseButton(0) && grounded)
         {
-            IEnumerator jump = GameManager.Logger.LogLevelAction(6, "Player jumped");
-            StartCoroutine(jump);
+            GameManager.Logger.LogLevelAction(6, "Player jumped");
             mouseState = true;
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
