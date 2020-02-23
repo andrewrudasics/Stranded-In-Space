@@ -128,7 +128,7 @@ MonoBehaviour:
   castDist: 0.28
   smoothingFactor: 0.5
   movementSpeed: 0.05
-  pushOffSpeed: 4
+  pushOffSpeed: 0.05
   aimTolerance: 0
   pushOffWindow: 0.05
 --- !u!50 &7694330007445276821

@@ -1,10 +1,11 @@
 ﻿/*
 Logging ActionId Glossery
-1 = clicked button
-2 = player completed a level
-3 = player finished all levels
-4 = player died
-5 = starting level
+    1xx = Starting level xx (LogStartLevel)
+    2xx = Died by asteroid on level xx (LogLevelAction)
+    3xx = Died off screen on level xx (LogLevelAction)
+    4xx = Player jumped in level xx (LogLevelAction)
+    1 = Player viewed controls (NoLevelAction)
+    2 = Player finished all levels (NoLevelAction)
 */
 
 using System.Collections;
@@ -21,6 +22,8 @@ public class GameManager {
     private int levelBuildIndex = 2;
     private int mainMenuBuildIndex = 0;
     private string userId = "";
+
+    private HashSet<int> levelsComplete = new HashSet<int>();
 
     private static GameManager _instance = null;
     private static CapstoneLogger loggerInstance = null;
@@ -44,7 +47,6 @@ public class GameManager {
             if (loggerInstance == null) {  
                 loggerInstance = new CapstoneLogger(
                 202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0);
-
             }  
             return loggerInstance;
         }
@@ -52,6 +54,16 @@ public class GameManager {
 
     public void SetUserId(string userId) {
         this.userId = userId;
+    }
+
+    public void AddCompletedLevelIndex(int index)
+    {
+        levelsComplete.Add(index);
+    }
+
+    public int GetNumLevelsCompleted()
+    {
+        return levelsComplete.Count;
     }
 
     public string GetUserId() {

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level2.unity
     guid: 4fade787bb3804246ad5f62aa594748a
   - enabled: 1
+    path: Assets/Scenes/Levels/Level2_1.unity
+    guid: b723deba676eb44b1ac79c99ae9d6a09
+  - enabled: 1
     path: Assets/Scenes/Levels/Level3.unity
     guid: 6e89ff80972da4cd7ae01f61b4a15e92
   - enabled: 1
@@ -33,11 +36,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level6.unity
     guid: 5b4a89ea1a0284b1c91703aaa0ec5404
   - enabled: 1
+    path: Assets/Scenes/Levels/Level6_1.unity
+    guid: 95df0368feab88a4d882bb4bffa5e548
+  - enabled: 1
     path: Assets/Scenes/Levels/Level7.unity
     guid: 3870b66a106054e3ab8aeea20bd39325
   - enabled: 1
     path: Assets/Scenes/Levels/Level8.unity
     guid: 83eb48547d9d04abc9450a50f802af47
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level9.unity
+    guid: be4cd7bacaced2b41a2a29eb02363d0c
   - enabled: 1
     path: Assets/Scenes/NonLevelScenes/WinScene.unity
     guid: 41e7d3518714f4d74935e8f174bd4ab5
@@ -47,4 +56,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NonLevelScenes/LevelCompleted.unity
     guid: 5a562825f5cc64950ae846d09e6c0adf
+  - enabled: 1
+    path: Assets/Scenes/NonLevelScenes/LevelSelect.unity
+    guid: a222b8783eef344438e37a42bc76e7a7
   m_configObjects: {}

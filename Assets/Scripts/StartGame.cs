@@ -32,6 +32,7 @@ public class StartGame : MonoBehaviour
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(gm.GetLevelBuildIndex());
     }
+
     public void PlayGame()
     {
 
@@ -40,6 +41,11 @@ public class StartGame : MonoBehaviour
         StartCoroutine(startLevel);
         StartCoroutine(ExecuteAfterTime(1));
     	
+    }
+
+    public void GoToLevelSelect()
+    {
+        SceneManager.LoadScene("Scenes/NonLevelScenes/LevelSelect");
     }
 
     public void ViewControls()

@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 213037845}
   - component: {fileID: 213037844}
   - component: {fileID: 213037843}
+  - component: {fileID: 213037847}
   m_Layer: 5
   m_Name: PlayAgain
   m_TagString: Untagged
@@ -232,7 +233,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -122, y: -120}
-  m_SizeDelta: {x: 192.5, y: 48.299988}
+  m_SizeDelta: {x: 230, y: 48.299988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &213037843
 MonoBehaviour:
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213037841}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd3d91f1472124786a8ad7953e03714e, type: 3}
   m_Name: 
@@ -289,8 +290,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 213037843}
-        m_MethodName: TryAgain
+      - m_Target: {fileID: 213037847}
+        m_MethodName: GoToLevelSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -336,6 +337,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213037841}
   m_CullTransparentMesh: 0
+--- !u!114 &213037847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213037841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87fcdff16bd5340eda1b11ae198eeb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &453275795
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +547,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 115, y: -120}
-  m_SizeDelta: {x: 192.5, y: 48.299988}
+  m_SizeDelta: {x: 230, y: 48.299988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1472553244
 MonoBehaviour:
@@ -706,7 +719,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Play Again
+  m_Text: Select Level
 --- !u!222 &1504158918
 CanvasRenderer:
   m_ObjectHideFlags: 0
