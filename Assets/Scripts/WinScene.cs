@@ -10,8 +10,7 @@ public class WinScene : MonoBehaviour
     {
         gm = GameManager.Instance;   
         gm.SetLevelIndex(2);
-        IEnumerator playerWin  = GameManager.Logger.LogActionWithNoLevel(3, "Player completed all levels");
-        StartCoroutine(playerWin);
+        GameManager.Logger.LogActionWithNoLevel(2, "Player completed all levels");
     }
 
     // Update is called once per frame
