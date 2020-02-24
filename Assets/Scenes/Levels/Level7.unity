@@ -404,16 +404,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player magnetic
       objectReference: {fileID: 0}
-    - target: {fileID: 8401843045064465283, guid: 8ab60bcc80320d14f925248751d75739,
-        type: 3}
-      propertyPath: movementSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8401843045064465283, guid: 8ab60bcc80320d14f925248751d75739,
-        type: 3}
-      propertyPath: pushOffSpeed
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 8401843045064465310, guid: 8ab60bcc80320d14f925248751d75739,
         type: 3}
       propertyPath: m_LocalPosition.x

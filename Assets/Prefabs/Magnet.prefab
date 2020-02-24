@@ -46,10 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetForce: 249
+  offForce: 0
+  onForce: 250
   pole: 1
   permeability: 0.05
   playerRb: {fileID: 0}
-  stickTo: 0
+  isStickTo: 0
+  isPlayer: 0
 --- !u!70 &2339394116492563514
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
