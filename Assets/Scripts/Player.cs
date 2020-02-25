@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     private float pushedOff;
     public float pushOffWindow;
     private Vector3 cNorm;
+    public float lowSpeed, medSpeed, hiSpeed;
+    public float damping;
+    private LineRenderer lr;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,10 @@ public class Player : MonoBehaviour
         grounded = true;
         gm = GameManager.Instance;
         rigidbody = GetComponent<Rigidbody2D>();
+        lr = GetComponent<LineRenderer>();
+        lr.sortingOrder = 1;
+        //lr.material = new Material(Shader.Find("Sprites/Default"));
+        //lr.material.color = Color.red;
     }
 
     // Update is called once per frame
@@ -44,6 +51,11 @@ public class Player : MonoBehaviour
             Vector3 dir = Input.mousePosition - pos;
             prevMouseDir = dir;
 
+            if (!lr.enabled) {
+                lr.enabled = true;
+            }
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
 
             /* Angle approach 
@@ -111,13 +123,34 @@ public class Player : MonoBehaviour
 
             if (mouseState)
             {
-                rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
-                stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
+                float velocity = prevMouseDir.magnitude;
+                Debug.Log(velocity);
+                if (velocity <= lowSpeed)
+                {
+                    velocity *= lowSpeed * damping;
+                }
+                else if (velocity <= medSpeed)
+                {
+                    velocity *= medSpeed * damping;
+                }
+                else
+                {
+                    velocity *= hiSpeed * damping;
+                }
+
+
+                //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
+                rigidbody.velocity = prevMouseDir.normalized * velocity;
+                //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
+                stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir.normalized * velocity / stuckTo.GetComponent<Rigidbody2D>().mass;
                 prevStuck = stuckTo;
                 stuckTo = null;
                 mouseState = false;
                 pushedOff = Time.time;
                 grounded = false;
+                lr.SetPosition(0, Vector3.zero);
+                lr.SetPosition(1, Vector3.zero);
+                lr.enabled = false;
             }
         }
     }
