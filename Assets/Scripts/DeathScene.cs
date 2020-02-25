@@ -32,7 +32,7 @@ public class DeathScene : MonoBehaviour
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-        StartCoroutine(ExecuteAfterTime(1));
+        StartCoroutine(ExecuteAfterTime(2));
     }
 
     public void GoToMainMenu()

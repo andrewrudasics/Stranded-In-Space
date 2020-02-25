@@ -7,6 +7,7 @@ public class StartGame : MonoBehaviour
 {
     GameManager gm;
     // Start is called before the first frame update
+
     void Start()
     {
         gm = GameManager.Instance; 
@@ -39,7 +40,7 @@ public class StartGame : MonoBehaviour
         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
         StartCoroutine(startLevel);
-        StartCoroutine(ExecuteAfterTime(1));
+        StartCoroutine(ExecuteAfterTime(2));
     	
     }
 

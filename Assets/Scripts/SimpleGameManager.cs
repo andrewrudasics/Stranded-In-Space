@@ -42,6 +42,11 @@ public class GameManager {
         }
     }
 
+    IEnumerator ExecuteAfterTime(float time) 
+    {
+        yield return new WaitForSeconds(time);
+    }
+
 
     // Last variable (int) is used to determine if it is logging debug data, test data, deployment data, 
     // switch for publishing
@@ -50,6 +55,7 @@ public class GameManager {
             if (loggerInstance == null) {  
                 loggerInstance = new CapstoneLogger(
                 202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0); 
+                StartCoroutine(ExecuteAfterTime(2));
             }  
             return loggerInstance;
         }
