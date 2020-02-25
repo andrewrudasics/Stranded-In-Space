@@ -42,11 +42,14 @@ public class GameManager {
         }
     }
 
+
+    // Last variable (int) is used to determine if it is logging debug data, test data, deployment data, 
+    // switch for publishing
     public static CapstoneLogger Logger {
         get {
             if (loggerInstance == null) {  
                 loggerInstance = new CapstoneLogger(
-                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0);
+                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0); 
             }  
             return loggerInstance;
         }
