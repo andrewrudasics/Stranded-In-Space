@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float lowSpeed, medSpeed, hiSpeed;
     public float damping;
     private LineRenderer lr;
+    public GameObject lp, mp, hp;
 
     // Start is called before the first frame update
     void Start()
@@ -51,25 +52,17 @@ public class Player : MonoBehaviour
             Vector3 dir = Input.mousePosition - pos;
             prevMouseDir = dir;
 
+            /*
             if (!lr.enabled) {
                 lr.enabled = true;
             }
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-
-            /* Angle approach 
-            float angle = Vector3.SignedAngle(cNorm, dir, Vector3.forward);
-            //Debug.Log("Angle: " + angle);
-            angle = Mathf.Clamp(angle, -aimTolerance, aimTolerance);
-            Debug.Log("Angle: " + angle);
-            float nrmAngle = Vector3.Angle(Vector3.up, cNorm);
-
-            
-            Debug.Log("nrmAngle: " + nrmAngle);
             */
 
-            // Quaternion Approach
+            // Set Pointer Logic
+            SetPlayerPointer(dir.magnitude);
+
 
             // Local Angle Approach
             Vector3 dirLocal = transform.InverseTransformDirection(dir);
@@ -78,48 +71,14 @@ public class Player : MonoBehaviour
             
             rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
 
-
-            //float nrmLocal = Mathf.Atan2(normLocal.y, normLocal.x) * Mathf.Rad2Deg;
-            //float angleLocal = Mathf.Atan2(dirLocal.y, dirLocal.x) * Mathf.Rad2Deg;
-
-            //Debug.Log(angleLocal);
-
-            //float nrm = Mathf.Atan2(cNorm.y, cNorm.x) * Mathf.Rad2Deg;
-            //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-            //float currAngle = Mathf.Atan2(transform.up.y, transform.up.x);
-
-            //angleLocal = Mathf.Clamp(angleLocal, -aimTolerance, aimTolerance);
-            //rigidbody.SetRotation(Quaternion.AngleAxis(nrmAngle + angle, Vector3.forward));
-
-
-
             //Debug.Log(rigidbody.rotation);
             Debug.DrawRay(transform.position, dir, Color.green);
             Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
 
-/*
-            Quaternion up = Quaternion.Euler(Vector3.up);
-            Quaternion aim = Quaternion.Euler(direction.normalized);
-            Quaternion sNorm = Quaternion.Euler(cNorm);
-            float angle = Quaternion.Angle(up, aim);
-            Debug.Log("Aim Angle:" + angle);
-            
-            float normAngle = Quaternion.Angle(up, sNorm);
-            Debug.Log("Norm Angle:" + normAngle);
-            angle = Mathf.Clamp(angle, normAngle - aimLimit, normAngle + aimLimit);
-            aim = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
-
-            Quaternion newRot = Quaternion.FromToRotation(Vector3.up, direction);
-            Vector3 el = newRot.eulerAngles;
-            Debug.Log(el);
-            el.y = 0;
-            gameObject.GetComponent<Rigidbody2D>().SetRotation(Quaternion.Euler(el));
-            */
         } 
         else if(!Input.GetMouseButton(0))
         {
-
+            SetPlayerPointer(0);
 
             if (mouseState)
             {
@@ -148,6 +107,8 @@ public class Player : MonoBehaviour
                 mouseState = false;
                 pushedOff = Time.time;
                 grounded = false;
+
+                // Movement Pointer
                 lr.SetPosition(0, Vector3.zero);
                 lr.SetPosition(1, Vector3.zero);
                 lr.enabled = false;
@@ -162,14 +123,35 @@ public class Player : MonoBehaviour
        
     }
 
-    public void StickTo(GameObject other)
+    private void SetPlayerPointer(float power)
     {
-        stuckTo = other;
-    }
-
-    public void releaseFromStick()
-    {
-        stuckTo = null;
+        if (Input.GetMouseButton(0))
+        {
+            if (power <= lowSpeed)
+            {
+                lp.SetActive(true);
+                mp.SetActive(false);
+                hp.SetActive(false);
+            }
+            else if (power <= medSpeed)
+            {
+                lp.SetActive(false);
+                mp.SetActive(true);
+                hp.SetActive(false);
+            }
+            else
+            {
+                lp.SetActive(false);
+                mp.SetActive(false);
+                hp.SetActive(true);
+            }
+        } else
+        {
+            lp.SetActive(false);
+            mp.SetActive(false);
+            hp.SetActive(false);
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
