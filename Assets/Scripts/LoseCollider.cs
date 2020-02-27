@@ -24,6 +24,7 @@ public class LoseCollider : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Player")
 		{
+			gm.died = true;
 			GameManager.Logger.LogLevelAction(300 + (gm.GetLevelBuildIndex() - 1), "Level " + (gm.GetLevelBuildIndex() - 1) + ": Player died in space");
 			SceneManager.LoadScene("Scenes/NonLevelScenes/DeathScene");
 			gm.SetGameScene(SceneManager.GetActiveScene().name);

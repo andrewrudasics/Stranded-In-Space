@@ -28,30 +28,42 @@ public class StartGame : MonoBehaviour
     } 
 
 
-    IEnumerator ExecuteAfterTime(float time) 
+    IEnumerator ExecuteAfterTimeLevel(float time, int level) 
     {
         yield return new WaitForSeconds(time);
-        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+        SceneManager.LoadScene(level);
+    }
+
+    IEnumerator ExecuteAfterTimeScene(float time, string scene) 
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(scene);
     }
 
     public void PlayGame()
     {
-
-        IEnumerator startLevel = GameManager.Logger.LogLevelStart(
+        if (!gm.levelStarted) {
+            gm.levelStarted = true;
+            IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
-        StartCoroutine(startLevel);
-        StartCoroutine(ExecuteAfterTime(2));
-    	
+            StartCoroutine(startLevel);
+            StartCoroutine(ExecuteAfterTimeLevel(2, gm.GetLevelBuildIndex()));
+            
+        }
     }
 
     public void GoToLevelSelect()
     {
-        SceneManager.LoadScene("Scenes/NonLevelScenes/LevelSelect");
+        StartCoroutine(ExecuteAfterTimeScene(2, "Scenes/NonLevelScenes/LevelSelect"));
+        
+
     }
 
     public void ViewControls()
     {
         GameManager.Logger.LogActionWithNoLevel(1, "Viewed Controls");
-        SceneManager.LoadScene("Scenes/NonLevelScenes/Controls");
+
+        StartCoroutine(ExecuteAfterTimeScene(1.5f, "Scenes/NonLevelScenes/Controls"));
+        
     }
 }

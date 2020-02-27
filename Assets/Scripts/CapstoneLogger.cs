@@ -42,6 +42,7 @@ namespace cse481.logging {
 		private int categoryId;
 		private int versionNumber;
 
+
 		/*
 		 * Logging state
 		 */

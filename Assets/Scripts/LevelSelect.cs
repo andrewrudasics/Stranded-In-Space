@@ -27,9 +27,12 @@ public class LevelSelect : MonoBehaviour
     public void GoToLevel(int x)
     {
     	gm.SetLevelIndex(x + 1);
-    	IEnumerator startLevel = GameManager.Logger.LogLevelStart(
+    	if (!gm.levelStarted) {
+            gm.levelStarted = true;
+            IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
-        StartCoroutine(startLevel);
-        StartCoroutine(ExecuteAfterTime(2));
+            StartCoroutine(startLevel);
+            StartCoroutine(ExecuteAfterTime(2));
+        }
     }
 }

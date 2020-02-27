@@ -23,6 +23,9 @@ public class GameManager {
     private int mainMenuBuildIndex = 0;
     private string userId = "";
 
+    public bool levelStarted = false;
+    public bool died = false;
+
     private HashSet<int> levelsComplete = new HashSet<int>();
 
     private static GameManager _instance = null;
@@ -51,7 +54,7 @@ public class GameManager {
             if (loggerInstance == null) {  
                 loggerInstance = new CapstoneLogger(
                 202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0);
-                new WaitTimer().WaitForSeconds(1.25f);
+                //new WaitTimer().WaitForSeconds(2f);
             }  
             return loggerInstance;
         }
