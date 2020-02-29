@@ -11,14 +11,15 @@ public class StartGame : MonoBehaviour
     void Start()
     {
         gm = GameManager.Instance; 
-        if (gm.GetUserId().Equals("")) {
-
-            string userId = GameManager.Logger.GenerateUuid();
+        string userId = GameManager.Logger.GetSavedUserId();
+        if (userId.Equals("")) {
+            userId = GameManager.Logger.GenerateUuid();
             GameManager.Logger.SetSavedUserId(userId);
-            gm.SetUserId(userId);
-            IEnumerator rout = GameManager.Logger.StartNewSession(userId);
-            StartCoroutine(rout);
+            gm.SetUserId(userId);   
         }
+        IEnumerator rout = GameManager.Logger.StartNewSession(userId);
+        StartCoroutine(rout);
+
     }
 
     // Update is called once per frame
