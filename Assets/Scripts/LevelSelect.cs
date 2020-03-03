@@ -18,11 +18,11 @@ public class LevelSelect : MonoBehaviour
         
     }
 
-    IEnumerator ExecuteAfterTime(float time) 
-    {
-        yield return new WaitForSeconds(time);
-        SceneManager.LoadScene(gm.GetLevelBuildIndex());
-    }
+	IEnumerator ExecuteThenLoad(IEnumerator co)
+	{
+		yield return StartCoroutine(co);
+		SceneManager.LoadScene(gm.GetLevelBuildIndex());
+	}
 
     public void GoToLevel(int x)
     {
@@ -31,8 +31,7 @@ public class LevelSelect : MonoBehaviour
             gm.levelStarted = true;
             IEnumerator startLevel = GameManager.Logger.LogLevelStart(
             100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
-            StartCoroutine(startLevel);
-            StartCoroutine(ExecuteAfterTime(2));
+			StartCoroutine(ExecuteThenLoad(startLevel));
         }
     }
 }
