@@ -55,6 +55,13 @@ public class LevelEnabler : MonoBehaviour
         }
         for (int i = 1; i < open; i++) {
         	levels[i].interactable = true;
+        	PlayerPrefs.SetInt("" + i, 1);
+        }
+
+        for (int i = 1; i < levels.Count + 1; i++) {
+        	if (PlayerPrefs.GetInt("" + i) == 1) {
+        		levels[i].interactable = true;
+        	} 
         }
     }
 
