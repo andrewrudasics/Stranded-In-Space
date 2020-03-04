@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerReverse : MonoBehaviour
 {
     GameManager gm;
     private GameObject stuckTo, prevStuck;
@@ -68,11 +68,8 @@ public class Player : MonoBehaviour
             Vector3 dirLocal = transform.InverseTransformDirection(dir);
             Vector3 normLocal = transform.InverseTransformDirection(cNorm);
             float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
-            if (gm.pullBack) {
-                angle += 180;
-            }
             
-            rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
+            rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle + 180;
 
             //Debug.Log(rigidbody.rotation);
             Debug.DrawRay(transform.position, dir, Color.green);
@@ -102,11 +99,7 @@ public class Player : MonoBehaviour
 
 
                 //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
-                Vector2 rbVelocity = prevMouseDir.normalized * velocity;
-                if (gm.pullBack) {
-                    rbVelocity = rbVelocity * -1;
-                }
-                rigidbody.velocity = rbVelocity;
+                rigidbody.velocity = -prevMouseDir.normalized * velocity;
                 //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
                 stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir.normalized * velocity / stuckTo.GetComponent<Rigidbody2D>().mass;
                 prevStuck = stuckTo;

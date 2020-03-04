@@ -25,6 +25,7 @@ public class GameManager {
 
     public bool levelStarted = false;
     public bool died = false;
+    public bool pullBack = true;
 
     private HashSet<int> levelsComplete = new HashSet<int>();
 
