@@ -23,8 +23,7 @@ public class Player : MonoBehaviour
     public float damping;
     private LineRenderer lr;
     public GameObject lp, mp, hp;
-
-    private bool paused;
+    bool paused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +34,6 @@ public class Player : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         lr = GetComponent<LineRenderer>();
         lr.sortingOrder = 1;
-        paused = false;
         //lr.material = new Material(Shader.Find("Sprites/Default"));
         //lr.material.color = Color.red;
     }
@@ -43,100 +41,87 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!paused)
+        // Aiming Rotation
+        if (Input.GetMouseButtonUp(0)) {
+            GameManager.Logger.LogLevelAction(400 + (gm.GetLevelBuildIndex() - 1), "Player jumped in Level " + (gm.GetLevelBuildIndex() - 1));
+
+        }
+        if (Input.GetMouseButton(0) && grounded)
         {
+            mouseState = true;
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - pos;
+            prevMouseDir = dir;
 
-            // Aiming Rotation
-            if (Input.GetMouseButtonUp(0))
-            {
-                GameManager.Logger.LogLevelAction(400 + (gm.GetLevelBuildIndex() - 1), "Player jumped in Level " + (gm.GetLevelBuildIndex() - 1));
-
+            /*
+            if (!lr.enabled) {
+                lr.enabled = true;
             }
-            if (Input.GetMouseButton(0) && grounded)
-            {
-                mouseState = true;
-                Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 dir = Input.mousePosition - pos;
-                prevMouseDir = dir;
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            */
 
-                /*
-                if (!lr.enabled) {
-                    lr.enabled = true;
-                }
-                lr.SetPosition(0, transform.position);
-                lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                */
-
-                // Set Pointer Logic
-                SetPlayerPointer(dir.magnitude);
+            // Set Pointer Logic
+            SetPlayerPointer(dir.magnitude);
 
 
-                // Local Angle Approach
-                Vector3 dirLocal = transform.InverseTransformDirection(dir);
-                Vector3 normLocal = transform.InverseTransformDirection(cNorm);
-                float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
-                if (gm.pullBack)
-                {
-                    angle += 180;
-                }
-
-                rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
-
-                //Debug.Log(rigidbody.rotation);
-                Debug.DrawRay(transform.position, dir, Color.green);
-                Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
-
+            // Local Angle Approach
+            Vector3 dirLocal = transform.InverseTransformDirection(dir);
+            Vector3 normLocal = transform.InverseTransformDirection(cNorm);
+            float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
+            if (gm.pullBack) {
+                angle += 180;
             }
-            else if (!Input.GetMouseButton(0))
+            rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
+
+
+            //Debug.Log(rigidbody.rotation);
+            Debug.DrawRay(transform.position, dir, Color.green);
+            Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
+
+        } 
+        else if(!Input.GetMouseButton(0))
+        {
+            SetPlayerPointer(0);
+
+            if (mouseState)
             {
-                SetPlayerPointer(0);
-
-                if (mouseState)
+                float velocity = prevMouseDir.magnitude;
+                Debug.Log(velocity);
+                if (velocity <= lowSpeed)
                 {
-                    float velocity = prevMouseDir.magnitude;
-                    Debug.Log(velocity);
-                    if (velocity <= lowSpeed)
-                    {
-                        velocity *= lowSpeed * damping;
-                    }
-                    else if (velocity <= medSpeed)
-                    {
-                        velocity *= medSpeed * damping;
-                    }
-                    else
-                    {
-                        velocity *= hiSpeed * damping;
-                    }
-
-
-                    //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
-                    Vector2 rbVelocity = prevMouseDir.normalized * velocity;
-                    if (gm.pullBack)
-                    {
-                        rbVelocity = rbVelocity * -1;
-                    }
-                    rigidbody.velocity = rbVelocity;
-                    //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
-                    if (stuckTo != null)
-                    {
-                        if (gm.pullBack)
-                            stuckTo.GetComponent<Rigidbody2D>().velocity = prevMouseDir.normalized * velocity / stuckTo.GetComponent<Rigidbody2D>().mass;
-                        else
-                            stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir.normalized * velocity / stuckTo.GetComponent<Rigidbody2D>().mass;
-
-
-                    }
-                    prevStuck = stuckTo;
-                    stuckTo = null;
-                    mouseState = false;
-                    pushedOff = Time.time;
-                    grounded = false;
-
-                    // Movement Pointer
-                    lr.SetPosition(0, Vector3.zero);
-                    lr.SetPosition(1, Vector3.zero);
-                    lr.enabled = false;
+                    velocity *= lowSpeed * damping;
                 }
+                else if (velocity <= medSpeed)
+                {
+                    velocity *= medSpeed * damping;
+                }
+                else
+                {
+                    velocity *= hiSpeed * damping;
+                }
+
+
+                //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
+                Vector2 rbVelocity = prevMouseDir.normalized * velocity;
+                if (gm.pullBack) {
+                    rbVelocity = rbVelocity * -1;
+                }
+                rigidbody.velocity = rbVelocity;
+                //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
+                stuckTo.GetComponent<Rigidbody2D>().velocity = -rbVelocity / stuckTo.GetComponent<Rigidbody2D>().mass;
+
+
+                prevStuck = stuckTo;
+                stuckTo = null;
+                mouseState = false;
+                pushedOff = Time.time;
+                grounded = false;
+
+                // Movement Pointer
+                lr.SetPosition(0, Vector3.zero);
+                lr.SetPosition(1, Vector3.zero);
+                lr.enabled = false;
             }
         }
     }
@@ -181,12 +166,12 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		SetMagnetStick(true);
-		if ((Time.time - pushedOff > pushOffWindow) && stuckTo == null)
+        SetMagnetStick(true);
+        if ((Time.time - pushedOff > pushOffWindow) || stuckTo == null)
         {
             if (collision.gameObject.layer == 10)
             {
-				grounded = true;
+                grounded = true;
                 Rigidbody2D cR = collision.gameObject.GetComponent<Rigidbody2D>();
                 stuckTo = collision.gameObject;
                 if (cR.bodyType == RigidbodyType2D.Dynamic)
@@ -270,21 +255,21 @@ public class Player : MonoBehaviour
         }
     }
 
-	private void OnCollisionExit2D(Collision2D collision)
-	{
-		SetMagnetStick(false);
-	}
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        SetMagnetStick(false);
+    }
 
-	// tries to disable magnet if magnet found
-	private void SetMagnetStick(bool isStickTo)
-	{
-		Magnet mag = this.GetComponentInChildren<Magnet>();
-		// if not same pole dont set stick
-		if (mag != null && !mag.isSamePole())
-		{
-			this.GetComponentInChildren<Magnet>().SetStickTo(isStickTo);
-		}
-	}
+    // tries to disable magnet if magnet found
+    private void SetMagnetStick(bool isStickTo)
+    {
+        Magnet mag = this.GetComponentInChildren<Magnet>();
+        // if not same pole dont set stick
+        if (mag != null && !mag.isSamePole())
+        {
+            this.GetComponentInChildren<Magnet>().SetStickTo(isStickTo);
+        }
+    }
 
     public void PauseGame()
     {

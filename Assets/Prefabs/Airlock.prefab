@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7850182275599932600}
   - component: {fileID: 7850182275599932743}
   - component: {fileID: 7850182275599932742}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Airlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
