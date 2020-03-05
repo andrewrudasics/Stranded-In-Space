@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
             Vector3 dirLocal = transform.InverseTransformDirection(dir);
             Vector3 normLocal = transform.InverseTransformDirection(cNorm);
             float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
-            if (gm.pullBack) {
+            if (GameManager.pullBack) {
                 angle += 180;
             }
             rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
 
                 //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
                 Vector2 rbVelocity = prevMouseDir.normalized * velocity;
-                if (gm.pullBack) {
+                if (GameManager.pullBack) {
                     rbVelocity = rbVelocity * -1;
                 }
                 rigidbody.velocity = rbVelocity;

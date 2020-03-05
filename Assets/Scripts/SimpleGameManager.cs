@@ -25,7 +25,12 @@ public class GameManager {
 
     public bool levelStarted = false;
     public bool died = false;
-    public bool pullBack = true;
+    public static bool pullBack = false;
+
+    /* Set to 5 on release
+     *
+     */
+    private static int pullBackIndex = 0;
 
     private HashSet<int> levelsComplete = new HashSet<int>();
 
@@ -34,6 +39,8 @@ public class GameManager {
     public event OnStateChangeHandler OnStateChange;
     public GameState gameState { get; private set; }
     public WaitTimer timer;
+
+
     protected GameManager() {}
 
 
@@ -48,13 +55,28 @@ public class GameManager {
     }
 
 
+
     // Last variable (int) is used to determine if it is logging debug data, test data, deployment data, 
     // switch for publishing
     public static CapstoneLogger Logger {
         get {
             if (loggerInstance == null) {  
+                int savedIndex = PlayerPrefs.GetInt("LoggingIndex", -1);
+                if (savedIndex != pullBackIndex || savedIndex != pullBackIndex + 1) {
+                    System.Random rnd = new System.Random();
+                    savedIndex = rnd.Next(pullBackIndex, pullBackIndex + 2);
+                    PlayerPrefs.SetInt("LoggingIndex", savedIndex);
+                    Debug.Log(savedIndex);
+                }
+
+                if (savedIndex == pullBackIndex) {
+                    pullBack = true;
+                }
+
+                
+                
                 loggerInstance = new CapstoneLogger(
-                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0);
+                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", savedIndex);
                 //new WaitTimer().WaitForSeconds(2f);
             }  
             return loggerInstance;
