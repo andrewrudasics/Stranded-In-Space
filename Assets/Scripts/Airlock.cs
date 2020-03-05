@@ -18,6 +18,12 @@ public class Airlock : MonoBehaviour
         
     }
 
+    IEnumerator ExecuteThenLoad(IEnumerator co)
+    {
+        yield return StartCoroutine(co);
+        SceneManager.LoadScene(gm.GetLevelBuildIndex());
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) 
     {
     	if (collision.gameObject.tag == "Player") {
@@ -31,7 +37,13 @@ public class Airlock : MonoBehaviour
                 if (SceneUtility.GetBuildIndexByScenePath("Scenes/NonLevelScenes/WinScene") == nextSceneIndex) {
                     SceneManager.LoadScene(nextSceneIndex);
                 } else {
-                    SceneManager.LoadScene("Scenes/NonLevelScenes/LevelSelect");
+                    if (!gm.levelStarted) {
+                        gm.levelStarted = true;
+                        IEnumerator startLevel = GameManager.Logger.LogLevelStart(
+                        100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
+                        StartCoroutine(ExecuteThenLoad(startLevel));
+                    }
+                    //SceneManager.LoadScene(nextSceneIndex);//"Scenes/NonLevelScenes/LevelSelect");
                 }
             }
     	}

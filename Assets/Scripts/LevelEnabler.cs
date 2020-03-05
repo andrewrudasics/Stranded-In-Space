@@ -61,6 +61,7 @@ public class LevelEnabler : MonoBehaviour
         for (int i = 1; i < levels.Count + 1; i++) {
         	if (PlayerPrefs.GetInt("" + i) == 1) {
         		levels[i].interactable = true;
+        		gm.AddCompletedLevelIndex(i+1);
         	} 
         }
     }
