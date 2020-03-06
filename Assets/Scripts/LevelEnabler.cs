@@ -63,6 +63,12 @@ public class LevelEnabler : MonoBehaviour
         		levels[i].interactable = true;
         	} 
         }
+        Debug.Log(gm.levelStarted);
+        if (gm.levelStarted) {
+            Debug.Log("Ending before going to Level Select");
+            GameManager.Logger.LogLevelEnd("Quit level");
+            gm.levelStarted = false;
+        }
     }
 
     // Update is called once per frame

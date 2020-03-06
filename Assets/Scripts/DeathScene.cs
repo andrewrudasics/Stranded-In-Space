@@ -16,7 +16,7 @@ public class DeathScene : MonoBehaviour
             GameManager.Logger.LogLevelEnd("Player died on Level " + (gm.GetLevelBuildIndex() - 1));
         }
         gm.died = false;
-        gm.levelStarted = false;
+        
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class DeathScene : MonoBehaviour
 
 	public void TryAgain() 
     {
-        
+        gm.levelStarted = false;
         if (!gm.levelStarted) {
             gm.levelStarted = true;
             IEnumerator startLevel = GameManager.Logger.LogLevelStart(
@@ -44,6 +44,7 @@ public class DeathScene : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        //gm.levelStarted = false;
         if (gm.levelStarted) {
             GameManager.Logger.LogLevelEnd("Quit level");
             gm.levelStarted = false;

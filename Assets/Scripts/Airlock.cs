@@ -10,6 +10,7 @@ public class Airlock : MonoBehaviour
     void Start()
     {
         gm = GameManager.Instance;
+        Debug.Log(gm.levelStarted);
     }
 
     // Update is called once per frame

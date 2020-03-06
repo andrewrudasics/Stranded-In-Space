@@ -45,7 +45,7 @@ public class StartGame : MonoBehaviour
 
     public void GoToLevelSelect()
     {
-        Debug.Log("Going to Level Select");
+        
         if (gm.levelStarted) {
             Debug.Log("Ending before going to Level Select");
             GameManager.Logger.LogLevelEnd("Quit level");
@@ -56,6 +56,7 @@ public class StartGame : MonoBehaviour
 
     IEnumerator ExecuteAfterTimeScene(float time, string scene) 
     {
+        Debug.Log("Going to Level Select");
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(scene);
     }
