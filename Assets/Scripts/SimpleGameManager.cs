@@ -62,14 +62,16 @@ public class GameManager {
         get {
             if (loggerInstance == null) {  
                 int savedIndex = PlayerPrefs.GetInt("LoggingIndex", -1);
-                if (savedIndex != pullBackIndex || savedIndex != pullBackIndex + 1) {
+                if (savedIndex != pullBackIndex && savedIndex != pullBackIndex + 1) {
                     System.Random rnd = new System.Random();
                     savedIndex = rnd.Next(pullBackIndex, pullBackIndex + 2);
                     PlayerPrefs.SetInt("LoggingIndex", savedIndex);
-                    Debug.Log(savedIndex);
+					Debug.Log("rnd pullBack");
                 }
 
-                if (savedIndex == pullBackIndex) {
+				Debug.Log(savedIndex);
+
+				if (savedIndex == pullBackIndex) {
                     pullBack = true;
                 }
 
