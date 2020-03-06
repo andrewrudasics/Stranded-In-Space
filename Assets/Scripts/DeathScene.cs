@@ -44,6 +44,10 @@ public class DeathScene : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        if (gm.levelStarted) {
+            GameManager.Logger.LogLevelEnd("Quit level");
+            gm.levelStarted = false;
+        }
         SceneManager.LoadScene(gm.GetMainMenuBuildIndex());
     }
 }

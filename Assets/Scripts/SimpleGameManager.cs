@@ -30,7 +30,7 @@ public class GameManager {
     /* Set to 5 on release
      *
      */
-    private static int pullBackIndex = 0;
+    private static int pullBackIndex = 5;
 
     private HashSet<int> levelsComplete = new HashSet<int>();
 

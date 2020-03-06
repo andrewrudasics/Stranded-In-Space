@@ -32,18 +32,21 @@ public class Airlock : MonoBehaviour
     		if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
             {
                 gm.AddCompletedLevelIndex(nextSceneIndex - 1);
-                GameManager.Logger.LogLevelEnd("Completed level " + (nextSceneIndex - 2));
+ 
+                
                 gm.SetLevelIndex(nextSceneIndex);
-                gm.levelStarted = false;
+                
                 if (SceneUtility.GetBuildIndexByScenePath("Scenes/NonLevelScenes/WinScene") == nextSceneIndex) {
                     SceneManager.LoadScene(nextSceneIndex);
                 } else {
-                    if (!gm.levelStarted) {
+                    SceneManager.LoadScene("Scenes/NonLevelScenes/LevelCompleted");
+
+                    /*if (!gm.levelStarted) {
                         gm.levelStarted = true;
                         IEnumerator startLevel = GameManager.Logger.LogLevelStart(
                         100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
                         StartCoroutine(ExecuteThenLoad(startLevel));
-                    }
+                    }*/
                     //SceneManager.LoadScene(nextSceneIndex);//"Scenes/NonLevelScenes/LevelSelect");
                 }
             }
