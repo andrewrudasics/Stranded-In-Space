@@ -66,10 +66,12 @@ public class GameManager {
                     System.Random rnd = new System.Random();
                     savedIndex = rnd.Next(pullBackIndex, pullBackIndex + 2);
                     PlayerPrefs.SetInt("LoggingIndex", savedIndex);
-                    Debug.Log(savedIndex);
+					Debug.Log("rnd pullBack");
                 }
 
-                if (savedIndex == pullBackIndex) {
+				Debug.Log(savedIndex);
+
+				if (savedIndex == pullBackIndex) {
                     pullBack = true;
                 }
                 loggerInstance = new CapstoneLogger(
