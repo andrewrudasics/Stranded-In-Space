@@ -49,19 +49,19 @@ public class LevelEnabler : MonoBehaviour
     	levels.Add(levelSeventeen);
     	levels.Add(levelEighteen);
         gm = GameManager.Instance; 
-        int open = gm.GetNumLevelsCompleted() + 1;
-        if (open > levels.Count) {
-        	open = levels.Count;
-        }
-        for (int i = 1; i < open; i++) {
-        	levels[i].interactable = true;
-        	PlayerPrefs.SetInt("" + i, 1);
-        }
+        //int open = gm.GetNumLevelsCompleted() + 1;
+        //if (open > levels.Count) {
+       // 	open = levels.Count;
+        //}
+        //for (int i = 1; i < open; i++) {
+        //	levels[i].interactable = true;
+      //  	PlayerPrefs.SetInt("" + i, 1);
+        //}
 
-        for (int i = 1; i < levels.Count + 1; i++) {
+        for (int i = 1; i < levels.Count; i++) {
         	if (PlayerPrefs.GetInt("" + i) == 1) {
         		levels[i].interactable = true;
-        		gm.AddCompletedLevelIndex(i+1);
+        		Debug.Log(i);//gm.AddCompletedLevelIndex(i+1);
         	} 
         }
     }
