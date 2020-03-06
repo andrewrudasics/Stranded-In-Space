@@ -27,7 +27,8 @@ public class GameManager {
     public bool died = false;
     public static bool pullBack = false;
 
-    /* Set to 5 on release
+    public bool sessionSet = false;
+    /* Set to 7 on release
      *
      */
     private static int pullBackIndex = 5;
