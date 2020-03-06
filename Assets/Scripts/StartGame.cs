@@ -8,7 +8,7 @@ public class StartGame : MonoBehaviour
     GameManager gm;
     // Start is called before the first frame update
 
-    IEnumerator Start()
+    void Start()
     {
         gm = GameManager.Instance; 
         if (!gm.sessionSet) {
@@ -18,9 +18,9 @@ public class StartGame : MonoBehaviour
                 GameManager.Logger.SetSavedUserId(userId);
                 gm.SetUserId(userId);   
             }
-            IEnumerator rout = GameManager.Logger.StartNewSession(userId);
-            yield return StartCoroutine(rout);
-            gm.sessionSet = true;
+			IEnumerator rout = GameManager.Logger.StartNewSession(userId);
+			StartCoroutine(rout);
+			gm.sessionSet = true;
         }
     }
 
