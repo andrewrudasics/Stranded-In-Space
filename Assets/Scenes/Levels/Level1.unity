@@ -250,7 +250,7 @@ PrefabInstance:
     - target: {fileID: 4018402216735066641, guid: 956d24db5deaec04cb97c8afc3fe15d1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4018402216735066641, guid: 956d24db5deaec04cb97c8afc3fe15d1,
         type: 3}
@@ -272,11 +272,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Controls Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 4018402216927344429, guid: 956d24db5deaec04cb97c8afc3fe15d1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 218.29999
+      objectReference: {fileID: 0}
     - target: {fileID: 4018402217339944009, guid: 956d24db5deaec04cb97c8afc3fe15d1,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 619385891}
+    - target: {fileID: 4018402217339944009, guid: 956d24db5deaec04cb97c8afc3fe15d1,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4817747039301433384, guid: 956d24db5deaec04cb97c8afc3fe15d1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -508,7 +518,7 @@ PrefabInstance:
     - target: {fileID: 9215870184438752201, guid: 032b1d4813b0be340b88116134d0f920,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9215870184438752201, guid: 032b1d4813b0be340b88116134d0f920,
         type: 3}
@@ -587,7 +597,7 @@ PrefabInstance:
     - target: {fileID: 7314411917854228141, guid: 3f6c510d338343b4ca0c3713798394dc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7314411917854228141, guid: 3f6c510d338343b4ca0c3713798394dc,
         type: 3}

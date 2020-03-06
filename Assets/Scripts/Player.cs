@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private LineRenderer lr;
     public GameObject lp, mp, hp;
     bool paused = false;
+    bool freeFlight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,96 +42,104 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Aiming Rotation
-        if (Input.GetMouseButtonUp(0)) {
-            GameManager.Logger.LogLevelAction(400 + (gm.GetLevelBuildIndex() - 1), "Player jumped in Level " + (gm.GetLevelBuildIndex() - 1));
-
-        }
-        if (Input.GetMouseButton(0) && grounded)
+        if (!paused)
         {
-            mouseState = true;
-            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-            Vector3 dir = Input.mousePosition - pos;
-            prevMouseDir = dir;
-
-            /*
-            if (!lr.enabled) {
-                lr.enabled = true;
-            }
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            */
-
-            // Set Pointer Logic
-            SetPlayerPointer(dir.magnitude);
-
-
-            // Local Angle Approach
-            Vector3 dirLocal = transform.InverseTransformDirection(dir);
-            Vector3 normLocal = transform.InverseTransformDirection(cNorm);
-            float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
-            if (GameManager.pullBack) {
-                angle += 180;
-            }
-            rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
-
-
-            //Debug.Log(rigidbody.rotation);
-            Debug.DrawRay(transform.position, dir, Color.green);
-            Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
-
-        } 
-        else if(!Input.GetMouseButton(0))
-        {
-            SetPlayerPointer(0);
-
-            if (mouseState)
+            // Aiming Rotation
+            if (Input.GetMouseButtonUp(0))
             {
-                float velocity = prevMouseDir.magnitude;
-                Debug.Log(velocity);
-                if (velocity <= lowSpeed)
+                GameManager.Logger.LogLevelAction(400 + (gm.GetLevelBuildIndex() - 1), "Player jumped in Level " + (gm.GetLevelBuildIndex() - 1));
+
+            }
+            if (Input.GetMouseButton(0) && grounded)
+            {
+                mouseState = true;
+                Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 dir = Input.mousePosition - pos;
+                prevMouseDir = dir;
+
+                /*
+                if (!lr.enabled) {
+                    lr.enabled = true;
+                }
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                */
+
+                // Set Pointer Logic
+                SetPlayerPointer(dir.magnitude);
+
+
+                // Local Angle Approach
+                Vector3 dirLocal = transform.InverseTransformDirection(dir);
+                Vector3 normLocal = transform.InverseTransformDirection(cNorm);
+                float angle = Vector3.SignedAngle(normLocal, dirLocal, new Vector3(0, 0, 1));
+                if (GameManager.pullBack)
                 {
-                    velocity *= lowSpeed * damping;
+                    angle += 180;
                 }
-                else if (velocity <= medSpeed)
+                rigidbody.rotation = Vector3.SignedAngle(Vector3.up, cNorm, Vector3.forward) + angle;
+
+
+                //Debug.Log(rigidbody.rotation);
+                Debug.DrawRay(transform.position, dir, Color.green);
+                Debug.DrawRay(transform.position, transform.rotation.eulerAngles, Color.red);
+
+            }
+            else if (!Input.GetMouseButton(0))
+            {
+                SetPlayerPointer(0);
+
+                if (mouseState)
                 {
-                    velocity *= medSpeed * damping;
+                    float velocity = prevMouseDir.magnitude;
+                    Debug.Log(velocity);
+                    if (velocity <= lowSpeed)
+                    {
+                        velocity *= lowSpeed * damping;
+                    }
+                    else if (velocity <= medSpeed)
+                    {
+                        velocity *= medSpeed * damping;
+                    }
+                    else
+                    {
+                        velocity *= hiSpeed * damping;
+                    }
+
+
+                    //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
+                    Vector2 rbVelocity = prevMouseDir.normalized * velocity;
+                    if (GameManager.pullBack)
+                    {
+                        rbVelocity = rbVelocity * -1;
+                    }
+                    rigidbody.velocity = rbVelocity;
+                    //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
+                    stuckTo.GetComponent<Rigidbody2D>().velocity = -rbVelocity / stuckTo.GetComponent<Rigidbody2D>().mass;
+
+
+                    prevStuck = stuckTo;
+                    stuckTo = null;
+                    mouseState = false;
+                    pushedOff = Time.time;
+                    grounded = false;
+
+                    // Movement Pointer
+                    lr.SetPosition(0, Vector3.zero);
+                    lr.SetPosition(1, Vector3.zero);
+                    lr.enabled = false;
                 }
-                else
-                {
-                    velocity *= hiSpeed * damping;
-                }
-
-
-                //rigidbody.velocity = pushOffSpeed * prevMouseDir.normalized * (prevMouseDir.magnitude * 0.4f);
-                Vector2 rbVelocity = prevMouseDir.normalized * velocity;
-                if (GameManager.pullBack) {
-                    rbVelocity = rbVelocity * -1;
-                }
-                rigidbody.velocity = rbVelocity;
-                //stuckTo.GetComponent<Rigidbody2D>().velocity = -prevMouseDir / stuckTo.GetComponent<Rigidbody2D>().mass * pushOffSpeed;
-                stuckTo.GetComponent<Rigidbody2D>().velocity = -rbVelocity / stuckTo.GetComponent<Rigidbody2D>().mass;
-
-
-                prevStuck = stuckTo;
-                stuckTo = null;
-                mouseState = false;
-                pushedOff = Time.time;
-                grounded = false;
-
-                // Movement Pointer
-                lr.SetPosition(0, Vector3.zero);
-                lr.SetPosition(1, Vector3.zero);
-                lr.enabled = false;
             }
         }
     }
 
     private void FixedUpdate()
     {
-        Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        rigidbody.AddForce(movement);
-       
+        if (freeFlight)
+        {
+            Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            rigidbody.AddForce(movement);
+        }
     }
 
     private void SetPlayerPointer(float power)
