@@ -28,6 +28,7 @@ public class Airlock : MonoBehaviour
     {
     	if (collision.gameObject.tag == "Player") {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            PlayerPrefs.SetInt("" + (nextSceneIndex - 2), 1);
     		if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
             {
                 gm.AddCompletedLevelIndex(nextSceneIndex - 1);

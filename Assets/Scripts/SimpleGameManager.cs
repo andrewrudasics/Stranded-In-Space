@@ -62,7 +62,7 @@ public class GameManager {
         get {
             if (loggerInstance == null) {  
                 int savedIndex = PlayerPrefs.GetInt("LoggingIndex", -1);
-                if (savedIndex != pullBackIndex || savedIndex != pullBackIndex + 1) {
+                if (savedIndex != pullBackIndex && savedIndex != pullBackIndex + 1) {
                     System.Random rnd = new System.Random();
                     savedIndex = rnd.Next(pullBackIndex, pullBackIndex + 2);
                     PlayerPrefs.SetInt("LoggingIndex", savedIndex);
@@ -72,9 +72,6 @@ public class GameManager {
                 if (savedIndex == pullBackIndex) {
                     pullBack = true;
                 }
-
-                
-                
                 loggerInstance = new CapstoneLogger(
                 202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", savedIndex);
                 //new WaitTimer().WaitForSeconds(2f);
