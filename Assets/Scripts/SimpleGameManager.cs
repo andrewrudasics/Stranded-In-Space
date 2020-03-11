@@ -25,13 +25,13 @@ public class GameManager {
 
     public bool levelStarted = false;
     public bool died = false;
-    public static bool pullBack = false;
+    //public static bool pullBack = false;
 
     public bool sessionSet = false;
-    /* Set to 7 on release
+    /* Set to 11 on release
      *
      */
-    private static int pullBackIndex = 5;
+    //private static int pullBackIndex = 9;
 
     private HashSet<int> levelsComplete = new HashSet<int>();
 
@@ -62,7 +62,7 @@ public class GameManager {
     public static CapstoneLogger Logger {
         get {
             if (loggerInstance == null) {  
-                int savedIndex = PlayerPrefs.GetInt("LoggingIndex", -1);
+                /*int savedIndex = PlayerPrefs.GetInt("LoggingIndex", -1);
                 if (savedIndex != pullBackIndex && savedIndex != pullBackIndex + 1) {
                     System.Random rnd = new System.Random();
                     savedIndex = rnd.Next(pullBackIndex, pullBackIndex + 2);
@@ -75,8 +75,9 @@ public class GameManager {
 				if (savedIndex == pullBackIndex) {
                     pullBack = true;
                 }
+                pullBack = false;*/
                 loggerInstance = new CapstoneLogger(
-                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", savedIndex);
+                202006, "strandedin", "670df58df5a2ec63b0a33e054418105a", 0);
                 //new WaitTimer().WaitForSeconds(2f);
             }  
             return loggerInstance;
