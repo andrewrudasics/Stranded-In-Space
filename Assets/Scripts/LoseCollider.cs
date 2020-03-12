@@ -24,6 +24,12 @@ public class LoseCollider : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Player")
 		{
+			int deaths = PlayerPrefs.GetInt("DeathCount", -1);
+            if (deaths == -1) {
+                PlayerPrefs.SetInt("DeathCount", 1);
+            } else {
+                PlayerPrefs.SetInt("DeathCount", deaths + 1);
+            }
 			gm.died = true;
 			GameManager.Logger.LogLevelAction(300 + (gm.GetLevelBuildIndex() - 1), "Level " + (gm.GetLevelBuildIndex() - 1) + ": Player died in space");
 			SceneManager.LoadScene("Scenes/NonLevelScenes/DeathScene");

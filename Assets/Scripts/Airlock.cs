@@ -28,6 +28,12 @@ public class Airlock : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) 
     {
     	if (collision.gameObject.tag == "Player") {
+            int levelsComplete = PlayerPrefs.GetInt("LevelsCompletedCount", -1);
+            if (levelsComplete == -1) {
+                PlayerPrefs.SetInt("LevelsCompletedCount", 1);
+            } else {
+                PlayerPrefs.SetInt("LevelsCompletedCount", levelsComplete + 1);
+            }
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
             PlayerPrefs.SetInt("" + (nextSceneIndex - 2), 1);
     		if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
