@@ -24,7 +24,7 @@ public class LevelEnabler : MonoBehaviour
 	public Button levelFifteen;
 	public Button levelSixteen;
 	public Button levelSeventeen;
-	public Button levelEighteen;
+	//public Button levelEighteen;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +47,7 @@ public class LevelEnabler : MonoBehaviour
     	levels.Add(levelFifteen);
     	levels.Add(levelSixteen);
     	levels.Add(levelSeventeen);
-    	levels.Add(levelEighteen);
+    	//levels.Add(levelEighteen);
         gm = GameManager.Instance; 
         //int open = gm.GetNumLevelsCompleted() + 1;
         //if (open > levels.Count) {

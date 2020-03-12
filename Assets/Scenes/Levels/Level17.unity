@@ -230,12 +230,12 @@ PrefabInstance:
     - target: {fileID: 8401843045064465310, guid: 8ab60bcc80320d14f925248751d75739,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.88
+      value: -6.99
       objectReference: {fileID: 0}
     - target: {fileID: 8401843045064465310, guid: 8ab60bcc80320d14f925248751d75739,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 8401843045064465310, guid: 8ab60bcc80320d14f925248751d75739,
         type: 3}
@@ -661,7 +661,7 @@ PrefabInstance:
     - target: {fileID: 3318275234221878155, guid: 194311eebdbbcdf449d7d28aa0d57d29,
         type: 3}
       propertyPath: magnetForce
-      value: 60
+      value: 165
       objectReference: {fileID: 0}
     - target: {fileID: 3318275234221878155, guid: 194311eebdbbcdf449d7d28aa0d57d29,
         type: 3}
