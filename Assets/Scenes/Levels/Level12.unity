@@ -311,6 +311,11 @@ PrefabInstance:
       propertyPath: onForce
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 4479293074612372663, guid: 8ab60bcc80320d14f925248751d75739,
+        type: 3}
+      propertyPath: magnetForce
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8401843045064465282, guid: 8ab60bcc80320d14f925248751d75739,
         type: 3}
       propertyPath: m_Name
