@@ -42,6 +42,23 @@ public class DeathScene : MonoBehaviour
         }
     }
 
+    public void RestartLevel()
+    {
+        if (gm.levelStarted)
+        {
+            GameManager.Logger.LogLevelEnd("Restart level");
+            gm.levelStarted = false;
+        }
+        
+        if (!gm.levelStarted)
+        {
+            gm.levelStarted = true;
+            IEnumerator startLevel = GameManager.Logger.LogLevelStart(
+            100 + (gm.GetLevelBuildIndex() - 1), "Starting level " + (gm.GetLevelBuildIndex() - 1));
+            StartCoroutine(ExecuteThenLoad(startLevel));
+        }
+    }
+
     public void GoToMainMenu()
     {
         //gm.levelStarted = false;

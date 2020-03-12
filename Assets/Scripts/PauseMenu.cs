@@ -27,4 +27,6 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(!pauseMenu.activeSelf);
         player.PauseGame();
     }
+
+    
 }
