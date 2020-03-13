@@ -9,21 +9,20 @@ public class LoadBarriers : MonoBehaviour
 
 	void Start()
 	{
-
 		int deaths = PlayerPrefs.GetInt("DeathCount", -1);
 		int levelsComplete = PlayerPrefs.GetInt("LevelsCompletedCount", -1);
 		float deathsToCompleted = ((float)deaths) / levelsComplete;
 
 		foreach (Transform child in transform)
 		{
-			if (deathsToCompleted < 1)
+			if (deathsToCompleted < 0.6)
 			{
 				child.gameObject.SetActive(true);
 			}
-			//else
-			//{
-			//	child.gameObject.SetActive(false);
-			//}
+			else
+			{
+				child.gameObject.SetActive(false);
+			}
 
 		}
 	}
