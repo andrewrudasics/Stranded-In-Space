@@ -18,6 +18,7 @@ public class LoadBarriers : MonoBehaviour
 			if (deathsToCompleted < 0.6)
 			{
 				child.gameObject.SetActive(true);
+				GameManager.Logger.LogActionWithNoLevel(10, "Loaded Hard Barrier");
 			}
 			else
 			{
