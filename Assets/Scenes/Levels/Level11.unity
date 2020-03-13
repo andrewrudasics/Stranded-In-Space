@@ -623,10 +623,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Flip mag-boot polarity: Space
-
-    Turn boots off to walk on platform:
-    Q'
+  m_Text: 'Flip magnetic boot polarity: Space'
 --- !u!222 &1344129948
 CanvasRenderer:
   m_ObjectHideFlags: 0
